@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="text-center">
+    <h1 class="text-4xl font-bold mb-4">Welcome to ADHD Focus</h1>
+    <p class="text-xl mb-8">Your personal assistant for managing ADHD and improving productivity.</p>
+    
+    {% if current_user.is_authenticated %}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <a href="{{ url_for('tasks.tasks') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h2 class="text-2xl font-semibold mb-2">Tasks</h2>
+                <p>Manage your tasks and prioritize your work.</p>
+            </a>
+            <a href="{{ url_for('habits.habits') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h2 class="text-2xl font-semibold mb-2">Habits</h2>
+                <p>Build and track positive habits.</p>
+            </a>
+            <a href="{{ url_for('focus.focus') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h2 class="text-2xl font-semibold mb-2">Focus</h2>
+                <p>Use our focus timer to improve concentration.</p>
+            </a>
+            <a href="{{ url_for('mood.mood') }}" class="bg-white p-6 rounded-lg shadow-md hover:shadow-lg transition duration-300">
+                <h2 class="text-2xl font-semibold mb-2">Mood</h2>
+                <p>Track your mood and energy levels.</p>
+            </a>
+        </div>
+    {% else %}
+        <div class="mt-8">
+            <a href="{{ url_for('auth.register') }}" class="bg-blue-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-blue-600 transition duration-300">Get Started</a>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}
