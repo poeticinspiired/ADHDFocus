@@ -3,19 +3,58 @@ console.log('ADHD Focus App loaded');
 
 // Function to update user points
 function updateUserPoints() {
+    // Check if the user is authenticated
+    const userPointsElement = document.getElementById('user-points');
+    if (!userPointsElement) {
+        console.log('User is not authenticated. Skipping points update.');
+        return;
+    }
+
     fetch('/api/user/points')
-        .then(response => response.json())
-        .then(data => {
-            document.getElementById('user-points').textContent = data.points;
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('User is not authenticated');
+                }
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
         })
-        .catch(error => console.error('Error fetching user points:', error));
+        .then(data => {
+            if (data.error) {
+                console.error('Error fetching user points:', data.error);
+                userPointsElement.textContent = 'Error';
+            } else {
+                userPointsElement.textContent = data.points;
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching user points:', error);
+            if (error.message === 'User is not authenticated') {
+                userPointsElement.textContent = 'N/A';
+            } else {
+                userPointsElement.textContent = 'Error';
+            }
+        });
 }
 
 // Function to load and display badges
 function loadBadges() {
     fetch('/api/user/badges')
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                if (response.status === 401) {
+                    throw new Error('User is not authenticated');
+                }
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
         .then(data => {
+            if (data.error) {
+                console.error('Error fetching badges:', data.error);
+                return;
+            }
             const badgesContainer = document.getElementById('badges-container');
             badgesContainer.innerHTML = '';
             data.badges.forEach(badge => {
@@ -28,7 +67,11 @@ function loadBadges() {
                 badgesContainer.appendChild(badgeElement);
             });
         })
-        .catch(error => console.error('Error fetching badges:', error));
+        .catch(error => {
+            console.error('Error fetching badges:', error);
+            const badgesContainer = document.getElementById('badges-container');
+            badgesContainer.innerHTML = '<p>Error loading badges</p>';
+        });
 }
 
 // Event listeners
