@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Task
 from app import db
+from app.routes.gamification import award_points, check_and_award_badge
 
 bp = Blueprint('tasks', __name__)
 
@@ -49,8 +50,16 @@ def api_task(task_id):
         task.description = data.get('description', task.description)
         task.due_date = data.get('due_date', task.due_date)
         task.priority = data.get('priority', task.priority)
+        
+        was_completed = task.completed
         task.completed = data.get('completed', task.completed)
+        
         db.session.commit()
+        
+        if not was_completed and task.completed:
+            award_points(current_user, 10)  # Award 10 points for completing a task
+            check_and_award_badge(current_user, "Task Master")
+        
         return jsonify({"message": "Task updated successfully"})
     elif request.method == 'DELETE':
         db.session.delete(task)

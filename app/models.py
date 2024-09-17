@@ -14,6 +14,8 @@ class User(UserMixin, db.Model):
     moods = db.relationship('Mood', backref='author', lazy='dynamic')
     posts = db.relationship('Post', backref='author', lazy='dynamic')
     is_moderator = db.Column(db.Boolean, default=False)
+    points = db.Column(db.Integer, default=0)
+    badges = db.relationship('Badge', secondary='user_badges')
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -62,6 +64,18 @@ class Post(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     forum_id = db.Column(db.Integer, db.ForeignKey('forum.id'), nullable=False)
     is_approved = db.Column(db.Boolean, default=False)
+
+class Badge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(50), nullable=False)
+    description = db.Column(db.String(200))
+    image_url = db.Column(db.String(200))
+
+class UserBadge(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+    badge_id = db.Column(db.Integer, db.ForeignKey('badge.id'))
+    earned_at = db.Column(db.DateTime, default=datetime.utcnow)
 
 @login_manager.user_loader
 def load_user(id):

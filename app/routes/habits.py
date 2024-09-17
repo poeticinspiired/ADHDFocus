@@ -2,6 +2,7 @@ from flask import Blueprint, render_template, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Habit
 from app import db
+from app.routes.gamification import award_points, check_and_award_badge
 
 bp = Blueprint('habits', __name__)
 
@@ -43,10 +44,40 @@ def api_habit(habit_id):
         data = request.json
         habit.name = data.get('name', habit.name)
         habit.frequency = data.get('frequency', habit.frequency)
-        habit.streak = data.get('streak', habit.streak)
         db.session.commit()
         return jsonify({"message": "Habit updated successfully"})
     elif request.method == 'DELETE':
         db.session.delete(habit)
         db.session.commit()
         return jsonify({"message": "Habit deleted successfully"})
+
+@bp.route('/api/habits/<int:habit_id>/complete', methods=['POST'])
+@login_required
+def complete_habit(habit_id):
+    habit = Habit.query.get_or_404(habit_id)
+    if habit.user_id != current_user.id:
+        return jsonify({"error": "Unauthorized"}), 403
+    
+    habit.streak += 1
+    db.session.commit()
+    
+    points_earned = 5  # Base points for completing a habit
+    if habit.streak % 7 == 0:  # Extra points for weekly streaks
+        points_earned += 20
+    
+    award_points(current_user, points_earned)
+    
+    badge_earned = None
+    if habit.streak == 7:
+        badge_earned = check_and_award_badge(current_user, "Week Warrior")
+    elif habit.streak == 30:
+        badge_earned = check_and_award_badge(current_user, "Monthly Master")
+    elif habit.streak == 365:
+        badge_earned = check_and_award_badge(current_user, "Yearly Champion")
+    
+    return jsonify({
+        "message": "Habit completed successfully",
+        "points_earned": points_earned,
+        "new_streak": habit.streak,
+        "badge_earned": badge_earned
+    })
