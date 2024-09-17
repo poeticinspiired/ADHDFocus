@@ -22,6 +22,7 @@
                     <a href="{{ url_for('insights.insights') }}" class="text-white mr-4">Insights</a>
                     <a href="{{ url_for('resources.resources') }}" class="text-white mr-4">Resources</a>
                     <a href="{{ url_for('forums.forums') }}" class="text-white mr-4">Forums</a>
+                    <a href="{{ url_for('integrations.integrations') }}" class="text-white mr-4">Integrations</a>
                     {% if current_user.is_moderator %}
                         <a href="{{ url_for('forums.moderate') }}" class="text-white mr-4">Moderate</a>
                     {% endif %}

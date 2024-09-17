@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <h1 class="text-3xl font-bold mb-6">External Integrations</h1>
+    
+    <div class="bg-white p-6 rounded-lg shadow-md mb-6">
+        <h2 class="text-2xl font-semibold mb-4">Google Calendar</h2>
+        {% if current_user.google_credentials %}
+            <p class="text-green-600 mb-4">Connected</p>
+            <a href="{{ url_for('integrations.sync_google_calendar') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Sync Calendar</a>
+        {% else %}
+            <p class="text-red-600 mb-4">Not connected</p>
+            <a href="{{ url_for('integrations.authorize_google') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Connect Google Calendar</a>
+        {% endif %}
+    </div>
+
+    <div class="bg-white p-6 rounded-lg shadow-md">
+        <h2 class="text-2xl font-semibold mb-4">Todoist</h2>
+        {% if current_user.todoist_token %}
+            <p class="text-green-600 mb-4">Connected</p>
+            <a href="{{ url_for('integrations.sync_todoist') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Sync Todoist</a>
+        {% else %}
+            <p class="text-red-600 mb-4">Not connected</p>
+            <a href="{{ url_for('integrations.authorize_todoist') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Connect Todoist</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

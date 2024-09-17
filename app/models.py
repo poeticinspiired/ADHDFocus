@@ -16,6 +16,8 @@ class User(UserMixin, db.Model):
     is_moderator = db.Column(db.Boolean, default=False)
     points = db.Column(db.Integer, default=0)
     badges = db.relationship('Badge', secondary='user_badges')
+    google_credentials = db.Column(db.Text)
+    todoist_token = db.Column(db.String(255))
 
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
