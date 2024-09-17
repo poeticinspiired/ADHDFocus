@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mx-auto px-4">
+    <h1 class="text-3xl font-bold mb-6">New Post in {{ forum.title }}</h1>
+    <form method="POST" action="{{ url_for('forums.new_post', forum_id=forum.id) }}" class="max-w-lg">
+        <div class="mb-4">
+            <label for="title" class="block text-gray-700 font-bold mb-2">Title</label>
+            <input type="text" id="title" name="title" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+        </div>
+        <div class="mb-4">
+            <label for="content" class="block text-gray-700 font-bold mb-2">Content</label>
+            <textarea id="content" name="content" required class="w-full px-3 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="6"></textarea>
+        </div>
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 focus:outline-none focus:shadow-outline">
+            Submit Post
+        </button>
+    </form>
+</div>
+{% endblock %}

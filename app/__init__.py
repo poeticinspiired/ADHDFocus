@@ -18,12 +18,13 @@ def create_app():
 
     login_manager.login_view = 'auth.login'
 
-    from app.routes import auth, tasks, habits, focus, mood, resources
+    from app.routes import auth, tasks, habits, focus, mood, resources, forums
     app.register_blueprint(auth.bp)
     app.register_blueprint(tasks.bp)
     app.register_blueprint(habits.bp)
     app.register_blueprint(focus.bp)
     app.register_blueprint(mood.bp)
     app.register_blueprint(resources.bp)
+    app.register_blueprint(forums.bp)
 
     return app

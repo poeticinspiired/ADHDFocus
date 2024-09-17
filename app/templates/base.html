@@ -18,6 +18,10 @@
                     <a href="{{ url_for('focus.focus') }}" class="text-white mr-4">Focus</a>
                     <a href="{{ url_for('mood.mood') }}" class="text-white mr-4">Mood</a>
                     <a href="{{ url_for('resources.resources') }}" class="text-white mr-4">Resources</a>
+                    <a href="{{ url_for('forums.forums') }}" class="text-white mr-4">Forums</a>
+                    {% if current_user.is_moderator %}
+                        <a href="{{ url_for('forums.moderate') }}" class="text-white mr-4">Moderate</a>
+                    {% endif %}
                     <a href="{{ url_for('auth.logout') }}" class="text-white">Logout</a>
                 {% else %}
                     <a href="{{ url_for('auth.login') }}" class="text-white mr-4">Login</a>
