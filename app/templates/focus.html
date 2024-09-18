@@ -3,9 +3,9 @@
 {% block content %}
 <div class="max-w-2xl mx-auto text-center">
     <h1 class="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-200 slide-in">Focus Timer</h1>
-    <div id="focus-container" class="mt-8 w-full h-96 rounded-lg shadow-lg overflow-hidden relative">
+    <div id="focus-container" class="mt-8 w-full h-96 rounded-lg shadow-lg overflow-hidden relative flex flex-col items-center justify-center">
         <div id="focus-background" class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-yellow-500 dark:from-yellow-600 dark:to-yellow-800 transition-all duration-500"></div>
-        <div id="focus-content" class="relative z-10 h-full flex flex-col justify-center items-center">
+        <div id="focus-content" class="relative z-10 flex flex-col items-center justify-center w-full h-full">
             <div id="focus-timer" class="text-8xl font-bold text-gray-800 dark:text-gray-200 mb-8 transition-all duration-300 transform hover:scale-110">25:00</div>
             <button id="start-focus" class="btn bg-white text-yellow-500 hover:bg-yellow-100 dark:bg-gray-800 dark:text-yellow-400 dark:hover:bg-gray-700 transform hover:scale-105 transition-all">
                 Start Focus Session

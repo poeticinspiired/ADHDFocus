@@ -504,8 +504,13 @@ body.dark-mode .add-habit-form {
 }
 
 #focus-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     transition: all 0.5s ease-in-out;
     overflow: hidden;
+    height: 24rem;
 }
 
 #focus-container.focus-active {
@@ -516,8 +521,42 @@ body.dark-mode .add-habit-form {
     transition: background 0.5s ease-in-out;
 }
 
+#focus-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 2rem;
+}
+
 #focus-timer {
+    font-size: 6rem;
+    line-height: 1;
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+}
+
+#start-focus,
+#end-focus {
+    font-size: 1.25rem;
+    padding: 0.75rem 1.5rem;
+    margin-top: 1rem;
+    min-width: 200px;
+}
+
+@media (max-width: 640px) {
+    #focus-timer {
+        font-size: 4rem;
+    }
+
+    #start-focus,
+    #end-focus {
+        font-size: 1rem;
+        padding: 0.5rem 1rem;
+        min-width: 160px;
+    }
 }
 
 @keyframes confetti-fall {
@@ -663,7 +702,6 @@ body.dark-mode .insight-item {
 .text-green-500 { color: #10b981; }
 .text-purple-500 { color: #8b5cf6; }
 
-/* Resources Styles */
 .resource-card {
     background-color: var(--card-bg-light);
     border-radius: 0.5rem;
