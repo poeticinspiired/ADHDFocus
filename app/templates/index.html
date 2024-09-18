@@ -1,99 +1,48 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="text-center mb-8">
-    <h1 class="text-4xl font-bold mb-4 text-gray-800 dark:text-gray-200">Welcome to ADHD Focus</h1>
-    <p class="text-xl mb-8 text-gray-600 dark:text-gray-400">Your personal assistant for managing ADHD and improving productivity.</p>
-</div>
+<h1 class="text-center mb-4">Welcome to ADHD Focus</h1>
+<p class="text-center mb-8">Your personal assistant for managing ADHD and improving productivity.</p>
 
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div class="card hover:shadow-lg transition duration-300">
-        <i class="fas fa-tasks text-4xl mb-4 icon text-yellow-500"></i>
-        <h2 class="card-title">Tasks</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-4">Manage your tasks and prioritize your work.</p>
+<div class="grid-container">
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-tasks text-accent mr-2"></i>Tasks</h2>
         <div class="progress-bar">
             <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
         </div>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">0% completed</p>
-        <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4 inline-block">View Tasks</a>
+        <p id="tasks-completed" class="mt-2">0% completed</p>
+        <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4">View Tasks</a>
     </div>
-    <div class="card hover:shadow-lg transition duration-300">
-        <i class="fas fa-calendar-check text-4xl mb-4 icon text-yellow-500"></i>
-        <h2 class="card-title">Habits</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-4">Build and track positive habits.</p>
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-calendar-check text-accent mr-2"></i>Habits</h2>
         <div class="progress-bar">
             <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
         </div>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">0% completed</p>
-        <a href="{{ url_for('habits.habits') }}" class="btn mt-4 inline-block">View Habits</a>
+        <p id="habits-completed" class="mt-2">0% completed</p>
+        <a href="{{ url_for('habits.habits') }}" class="btn mt-4">View Habits</a>
     </div>
-    <div class="card hover:shadow-lg transition duration-300">
-        <i class="fas fa-bullseye text-4xl mb-4 icon text-yellow-500"></i>
-        <h2 class="card-title">Focus</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-4">Use our focus timer to improve concentration.</p>
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-bullseye text-accent mr-2"></i>Focus</h2>
         <div class="progress-bar">
             <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
         </div>
-        <p class="mt-2 text-sm text-gray-500 dark:text-gray-400">0 minutes focused today</p>
-        <a href="{{ url_for('focus.focus') }}" class="btn mt-4 inline-block">Start Focus Session</a>
+        <p id="focus-minutes" class="mt-2">0 minutes focused today</p>
+        <a href="{{ url_for('focus.focus') }}" class="btn mt-4">Start Focus Session</a>
     </div>
-    <div class="card hover:shadow-lg transition duration-300">
-        <i class="fas fa-smile text-4xl mb-4 icon text-yellow-500"></i>
-        <h2 class="card-title">Mood</h2>
-        <p class="text-gray-600 dark:text-gray-400 mb-4">Track your mood and energy levels.</p>
-        <div id="mood-icons" class="flex justify-center space-x-2 mb-4">
-            <i class="far fa-meh mood-icon"></i>
+    <div class="card">
+        <h2 class="card-title"><i class="fas fa-smile text-accent mr-2"></i>Mood</h2>
+        <div id="mood-icon" class="text-center text-4xl mb-2">
+            <i class="fas fa-meh"></i>
         </div>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Last mood: Not set</p>
-        <a href="{{ url_for('mood.mood') }}" class="btn mt-4 inline-block">Log Mood</a>
+        <p id="mood-text" class="text-center">Last mood: Not set</p>
+        <a href="{{ url_for('mood.mood') }}" class="btn mt-4">Log Mood</a>
     </div>
 </div>
 
 <div class="mt-8">
-    <h2 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Your Achievements</h2>
-    <div id="achievements" class="flex flex-wrap gap-2">
-        <!-- Badges will be dynamically added here -->
+    <h2 class="text-center mb-4">Your Achievements</h2>
+    <div id="achievements" class="flex flex-wrap justify-center gap-2">
+        <!-- Achievements will be dynamically added here -->
     </div>
 </div>
-{% endblock %}
-
-{% block scripts %}
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Fetch user progress data and update the dashboard
-    fetch('/api/user_progress')
-        .then(response => response.json())
-        .then(data => {
-            updateProgressBar('tasks-progress', data.tasks_completed);
-            updateProgressBar('habits-progress', data.habits_completed);
-            updateProgressBar('focus-progress', data.focus_minutes / 60 * 100); // Assuming 60 minutes is 100%
-
-            const tasksCompleted = document.querySelector('#tasks-progress').nextElementSibling;
-            tasksCompleted.textContent = `${data.tasks_completed}% completed`;
-
-            const habitsCompleted = document.querySelector('#habits-progress').nextElementSibling;
-            habitsCompleted.textContent = `${data.habits_completed}% completed`;
-
-            const focusMinutes = document.querySelector('#focus-progress').nextElementSibling;
-            focusMinutes.textContent = `${data.focus_minutes} minutes focused today`;
-
-            // Update mood icon
-            const moodIcons = document.getElementById('mood-icons');
-            moodIcons.innerHTML = '';
-            const moodIcon = document.createElement('i');
-            moodIcon.className = `fas fa-${data.last_mood_icon} mood-icon`;
-            moodIcons.appendChild(moodIcon);
-
-            const lastMood = moodIcons.nextElementSibling;
-            lastMood.textContent = `Last mood: ${data.last_mood}`;
-
-            // Add achievement badges
-            const achievements = document.getElementById('achievements');
-            data.achievements.forEach(achievement => {
-                achievements.appendChild(createBadge(achievement));
-            });
-        })
-        .catch(error => console.error('Error fetching user progress:', error));
-});
-</script>
 {% endblock %}

@@ -8,9 +8,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 </head>
-<body class="bg-gray-100 text-gray-900 font-roboto transition-colors duration-200" id="body">
-    <nav class="fixed top-0 left-0 right-0 p-4 transition-colors duration-200 shadow-md z-10" id="navbar">
-        <div class="container mx-auto">
+<body>
+    <nav id="navbar">
+        <div class="container">
             <div class="nav-container">
                 <a href="{{ url_for('index') }}" class="nav-logo">ADHD Focus</a>
                 <div class="nav-links">
@@ -24,14 +24,17 @@
                         <i class="fas fa-adjust"></i>
                     </button>
                 </div>
+                <button id="mobile-menu-toggle" class="nav-link d-md-none">
+                    <i class="fas fa-bars"></i>
+                </button>
             </div>
         </div>
     </nav>
 
-    <main class="container mx-auto mt-24 p-4">
+    <main class="container mt-4">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
-                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-700 p-4 mb-4 fade-in" role="alert">
+                <div class="alert alert-info" role="alert">
                     <ul>
                         {% for message in messages %}
                             <li>{{ message }}</li>
