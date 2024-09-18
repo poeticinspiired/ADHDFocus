@@ -2,12 +2,15 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto text-center">
-    <div id="focus-3d" class="mt-8 w-full h-screen rounded-lg shadow-lg overflow-hidden relative">
-        <h1 id="focus-title" class="text-4xl font-bold text-gray-800 dark:text-gray-200 absolute top-1/4 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">Focus Mode</h1>
-        <div id="focus-timer" class="text-8xl font-bold text-gray-800 dark:text-gray-200 absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">25:00</div>
-        <button id="start-focus" class="btn bg-yellow-500 hover:bg-yellow-600 text-gray-800 transform hover:scale-105 transition-all absolute bottom-1/4 left-1/2 -translate-x-1/2 z-10">
-            Start Focus Session
-        </button>
+    <h1 class="text-4xl font-bold mb-6 text-gray-800 dark:text-gray-200 slide-in">Focus Timer</h1>
+    <div id="focus-container" class="mt-8 w-full h-96 rounded-lg shadow-lg overflow-hidden relative">
+        <div id="focus-background" class="absolute inset-0 bg-gradient-to-br from-yellow-300 to-yellow-500 dark:from-yellow-600 dark:to-yellow-800 transition-all duration-500"></div>
+        <div id="focus-content" class="relative z-10 h-full flex flex-col justify-center items-center">
+            <div id="focus-timer" class="text-8xl font-bold text-gray-800 dark:text-gray-200 mb-8 transition-all duration-300 transform hover:scale-110">25:00</div>
+            <button id="start-focus" class="btn bg-white text-yellow-500 hover:bg-yellow-100 dark:bg-gray-800 dark:text-yellow-400 dark:hover:bg-gray-700 transform hover:scale-105 transition-all">
+                Start Focus Session
+            </button>
+        </div>
     </div>
     <button id="end-focus" class="btn bg-red-500 hover:bg-red-600 text-white transform hover:scale-105 transition-all mt-4" style="display: none;">
         End Focus Session
@@ -17,6 +20,5 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-<script type="module" src="{{ url_for('static', filename='js/focus.js') }}"></script>
+<script src="{{ url_for('static', filename='js/focus.js') }}"></script>
 {% endblock %}

@@ -2,15 +2,21 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">ADHD Resources</h1>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 slide-in">ADHD Resources</h1>
+    <div id="resources-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
         {% for resource in resources %}
-        <div class="card">
+        <div class="resource-card card slide-in" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
             <h2 class="text-xl font-semibold mb-2 text-gray-800 dark:text-gray-200">{{ resource.title }}</h2>
             <p class="text-gray-600 dark:text-gray-400 mb-4">{{ resource.description }}</p>
-            <a href="{{ resource.link }}" target="_blank" rel="noopener noreferrer" class="btn inline-block">Learn More</a>
+            <a href="{{ resource.link }}" target="_blank" rel="noopener noreferrer" class="btn btn-primary pulse">
+                <i class="fas fa-external-link-alt mr-2"></i>Learn More
+            </a>
         </div>
         {% endfor %}
     </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/resources.js') }}"></script>
 {% endblock %}

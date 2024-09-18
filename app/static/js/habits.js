@@ -5,8 +5,9 @@ function loadHabits() {
         .then(habits => {
             const habitList = document.getElementById('habit-list');
             habitList.innerHTML = '';
-            habits.forEach(habit => {
+            habits.forEach((habit, index) => {
                 const habitElement = createHabitElement(habit);
+                habitElement.style.animationDelay = `${index * 0.1}s`;
                 habitList.appendChild(habitElement);
             });
         })
@@ -16,17 +17,22 @@ function loadHabits() {
 // Function to create a habit element
 function createHabitElement(habit) {
     const habitElement = document.createElement('div');
-    habitElement.className = 'card';
+    habitElement.className = 'habit-item slide-in';
     habitElement.innerHTML = `
-        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">${habit.name}</h3>
-        <p class="text-gray-600 dark:text-gray-400">Frequency: ${habit.frequency}</p>
-        <p class="text-sm text-gray-500 dark:text-gray-400">Streak: ${habit.streak} days</p>
-        <div class="mt-4 flex justify-between items-center">
-            <button class="btn" onclick="completeHabit(${habit.id})">Complete</button>
-            <button class="btn btn-delete" onclick="deleteHabit(${habit.id})">Delete</button>
+        <div class="habit-info">
+            <h3 class="habit-name text-lg font-semibold">${habit.name}</h3>
+            <p class="text-gray-600 dark:text-gray-400">Frequency: ${habit.frequency}</p>
+            <p class="text-sm text-gray-500 dark:text-gray-400">Streak: ${habit.streak} days</p>
         </div>
-        <div class="mt-2 progress-bar">
-            <div class="progress-bar-fill" style="width: ${(habit.streak / 30) * 100}%"></div>
+        <div class="habit-progress">
+            <div class="progress-bar">
+                <div class="progress-bar-fill" style="width: ${(habit.streak / 30) * 100}%"></div>
+            </div>
+        </div>
+        <div class="habit-actions">
+            <button onclick="completeHabit(${habit.id})" class="btn btn-success btn-action">Complete</button>
+            <button onclick="editHabit(${habit.id})" class="btn btn-info btn-action">Edit</button>
+            <button onclick="deleteHabit(${habit.id})" class="btn btn-error btn-action">Delete</button>
         </div>
     `;
     return habitElement;
@@ -51,9 +57,11 @@ function addHabit(event) {
         console.log('Success:', data);
         form.reset();
         loadHabits();
+        showNotification('Habit created successfully!', 'success');
     })
     .catch((error) => {
         console.error('Error:', error);
+        showNotification('Error creating habit. Please try again.', 'error');
     });
 }
 
@@ -66,13 +74,22 @@ function completeHabit(habitId) {
     .then(data => {
         console.log('Success:', data);
         loadHabits();
+        showNotification('Habit completed for today!', 'success');
         if (data.badge_earned) {
-            alert(`Congratulations! You've earned the "${data.badge_earned}" badge!`);
+            showNotification(`Congratulations! You've earned the "${data.badge_earned}" badge!`, 'info');
         }
     })
     .catch((error) => {
         console.error('Error:', error);
+        showNotification('Error completing habit. Please try again.', 'error');
     });
+}
+
+// Function to edit a habit
+function editHabit(habitId) {
+    // Implement edit functionality
+    console.log('Edit habit:', habitId);
+    showNotification('Edit functionality coming soon!', 'info');
 }
 
 // Function to delete a habit
@@ -85,11 +102,30 @@ function deleteHabit(habitId) {
         .then(data => {
             console.log('Success:', data);
             loadHabits();
+            showNotification('Habit deleted successfully!', 'success');
         })
         .catch((error) => {
             console.error('Error:', error);
+            showNotification('Error deleting habit. Please try again.', 'error');
         });
     }
+}
+
+// Function to show notification
+function showNotification(message, type) {
+    const notification = document.createElement('div');
+    notification.className = `notification ${type}`;
+    notification.textContent = message;
+    document.body.appendChild(notification);
+    setTimeout(() => {
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
+    }, 100);
 }
 
 // Event listeners
