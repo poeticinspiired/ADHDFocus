@@ -10,6 +10,7 @@ function startFocusSession() {
     startButton.style.display = 'none';
     endButton.style.display = 'inline-block';
     focusMessage.textContent = 'Focus session in progress...';
+    focusMessage.classList.add('text-yellow-500');
 
     startTime = Date.now();
     focusTimer = setInterval(() => {
@@ -48,8 +49,9 @@ function endFocusSession() {
     .then(response => response.json())
     .then(data => {
         console.log('Focus session ended:', data);
-        focusMessage.textContent = `Great job! You earned ${data.points_earned} points for your ${duration}-minute focus session.`;
-        updateUserPoints();
+        focusMessage.textContent = `Great job! You focused for ${duration} minutes.`;
+        focusMessage.classList.remove('text-yellow-500');
+        focusMessage.classList.add('text-green-500');
     })
     .catch(error => console.error('Error ending focus session:', error));
 }

@@ -2,17 +2,17 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto text-center">
-    <h1 class="text-3xl font-bold mb-6">Focus Mode</h1>
-    <div id="focus-timer" class="text-6xl font-bold mb-8">25:00</div>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Focus Mode</h1>
+    <div id="focus-timer" class="text-6xl font-bold mb-8 text-gray-800 dark:text-gray-200">25:00</div>
     <div class="space-x-4">
-        <button id="start-focus" class="bg-green-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-green-600 transition duration-300">
+        <button id="start-focus" class="btn bg-yellow-500 hover:bg-yellow-600 text-gray-800">
             Start Focus Session
         </button>
-        <button id="end-focus" class="bg-red-500 text-white px-6 py-3 rounded-lg text-lg font-semibold hover:bg-red-600 transition duration-300" style="display: none;">
+        <button id="end-focus" class="btn bg-red-500 hover:bg-red-600 text-white" style="display: none;">
             End Focus Session
         </button>
     </div>
-    <div id="focus-message" class="mt-8 text-xl"></div>
+    <div id="focus-message" class="mt-8 text-xl text-gray-600 dark:text-gray-400"></div>
 </div>
 {% endblock %}
 

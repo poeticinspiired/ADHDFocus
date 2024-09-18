@@ -16,17 +16,22 @@ function loadTasks() {
 // Function to create a task element
 function createTaskElement(task) {
     const taskElement = document.createElement('div');
-    taskElement.className = 'bg-white p-4 rounded-lg shadow-md';
+    taskElement.className = 'card';
     taskElement.innerHTML = `
-        <h3 class="text-lg font-semibold">${task.title}</h3>
-        <p class="text-gray-600">${task.description || 'No description'}</p>
-        <p class="text-sm text-gray-500">Due: ${task.due_date || 'No due date'}</p>
-        <p class="text-sm text-gray-500">Priority: ${task.priority}</p>
-        <div class="mt-2">
-            <input type="checkbox" id="task-${task.id}" ${task.completed ? 'checked' : ''}>
-            <label for="task-${task.id}">Completed</label>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">${task.title}</h3>
+        <p class="text-gray-600 dark:text-gray-400">${task.description || 'No description'}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Due: ${task.due_date || 'No due date'}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Priority: ${task.priority}</p>
+        <div class="mt-2 flex items-center">
+            <input type="checkbox" id="task-${task.id}" ${task.completed ? 'checked' : ''} class="mr-2">
+            <label for="task-${task.id}" class="text-gray-700 dark:text-gray-300">Completed</label>
         </div>
-        <button class="mt-2 bg-red-500 text-white px-2 py-1 rounded" onclick="deleteTask(${task.id})">Delete</button>
+        <div class="mt-4 flex justify-between items-center">
+            <button class="btn btn-delete" onclick="deleteTask(${task.id})">Delete</button>
+            <div class="progress-bar w-1/2">
+                <div class="progress-bar-fill" style="width: ${task.completed ? '100%' : '0%'}"></div>
+            </div>
+        </div>
     `;
 
     const checkbox = taskElement.querySelector(`#task-${task.id}`);

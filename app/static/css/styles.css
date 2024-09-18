@@ -1,12 +1,107 @@
-/* Add your custom styles here */
+:root {
+    --bg-light: #f3f4f6;
+    --bg-dark: #1f2937;
+    --text-light: #1f2937;
+    --text-dark: #f3f4f6;
+    --accent: #fbbf24;
+    --card-bg-light: #ffffff;
+    --card-bg-dark: #374151;
+}
+
 body {
     font-family: Arial, sans-serif;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+}
+
+body.dark-mode {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
 }
 
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 20px;
+}
+
+#navbar {
+    background-color: var(--bg-light);
+}
+
+body.dark-mode #navbar {
+    background-color: var(--bg-dark);
+}
+
+.card {
+    background-color: var(--card-bg-light);
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    transition: box-shadow 0.3s ease;
+}
+
+body.dark-mode .card {
+    background-color: var(--card-bg-dark);
+}
+
+.card:hover {
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--text-light);
+}
+
+body.dark-mode .card-title {
+    color: var(--text-dark);
+}
+
+.btn {
+    background-color: var(--accent);
+    color: var(--text-light);
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+    background-color: var(--text-light);
+    color: var(--accent);
+}
+
+body.dark-mode .btn:hover {
+    background-color: var(--text-dark);
+}
+
+.progress-bar {
+    background-color: var(--bg-light);
+    border-radius: 0.25rem;
+    overflow: hidden;
+}
+
+.progress-bar-fill {
+    background-color: var(--accent);
+    height: 0.5rem;
+    transition: width 0.3s ease;
+}
+
+.icon {
+    color: var(--text-light);
+    transition: color 0.3s ease;
+}
+
+.icon:hover {
+    color: var(--accent);
+}
+
+body.dark-mode .icon {
+    color: var(--text-dark);
 }
 
 /* Add more custom styles as needed */

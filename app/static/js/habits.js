@@ -16,13 +16,18 @@ function loadHabits() {
 // Function to create a habit element
 function createHabitElement(habit) {
     const habitElement = document.createElement('div');
-    habitElement.className = 'bg-white p-4 rounded-lg shadow-md';
+    habitElement.className = 'card';
     habitElement.innerHTML = `
-        <h3 class="text-lg font-semibold">${habit.name}</h3>
-        <p class="text-gray-600">Frequency: ${habit.frequency}</p>
-        <p class="text-sm text-gray-500">Streak: ${habit.streak} days</p>
-        <button class="mt-2 bg-green-500 text-white px-2 py-1 rounded" onclick="completeHabit(${habit.id})">Complete</button>
-        <button class="mt-2 bg-red-500 text-white px-2 py-1 rounded" onclick="deleteHabit(${habit.id})">Delete</button>
+        <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200">${habit.name}</h3>
+        <p class="text-gray-600 dark:text-gray-400">Frequency: ${habit.frequency}</p>
+        <p class="text-sm text-gray-500 dark:text-gray-400">Streak: ${habit.streak} days</p>
+        <div class="mt-4 flex justify-between items-center">
+            <button class="btn" onclick="completeHabit(${habit.id})">Complete</button>
+            <button class="btn btn-delete" onclick="deleteHabit(${habit.id})">Delete</button>
+        </div>
+        <div class="mt-2 progress-bar">
+            <div class="progress-bar-fill" style="width: ${(habit.streak / 30) * 100}%"></div>
+        </div>
     `;
     return habitElement;
 }
@@ -60,7 +65,6 @@ function completeHabit(habitId) {
     .then(response => response.json())
     .then(data => {
         console.log('Success:', data);
-        updateUserPoints();
         loadHabits();
         if (data.badge_earned) {
             alert(`Congratulations! You've earned the "${data.badge_earned}" badge!`);
@@ -73,17 +77,19 @@ function completeHabit(habitId) {
 
 // Function to delete a habit
 function deleteHabit(habitId) {
-    fetch(`/api/habits/${habitId}`, {
-        method: 'DELETE',
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        loadHabits();
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
+    if (confirm('Are you sure you want to delete this habit?')) {
+        fetch(`/api/habits/${habitId}`, {
+            method: 'DELETE',
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log('Success:', data);
+            loadHabits();
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }
 }
 
 // Event listeners

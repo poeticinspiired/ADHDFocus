@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="max-w-4xl mx-auto">
-    <h1 class="text-3xl font-bold mb-6">Your Personalized Insights</h1>
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Your Personalized Insights</h1>
     <div id="insights-container" class="space-y-4"></div>
 </div>
 {% endblock %}
@@ -16,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const insightsContainer = document.getElementById('insights-container');
             insights.forEach(insight => {
                 const insightElement = document.createElement('div');
-                insightElement.className = 'bg-white p-4 rounded-lg shadow-md';
-                insightElement.textContent = insight;
+                insightElement.className = 'card';
+                insightElement.innerHTML = `
+                    <p class="text-gray-800 dark:text-gray-200">${insight}</p>
+                `;
                 insightsContainer.appendChild(insightElement);
             });
         })
