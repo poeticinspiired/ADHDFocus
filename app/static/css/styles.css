@@ -9,7 +9,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-light);
 }
@@ -33,13 +33,30 @@ body.dark-mode #navbar {
     background-color: var(--bg-dark);
 }
 
+.nav-link {
+    color: var(--text-light);
+    font-weight: 500;
+    transition: color 0.3s ease, background-color 0.3s ease;
+    padding: 0.5rem 1rem;
+    border-radius: 0.25rem;
+}
+
+.nav-link:hover {
+    color: var(--accent);
+    background-color: rgba(251, 191, 36, 0.1);
+}
+
+body.dark-mode .nav-link {
+    color: var(--text-dark);
+}
+
 .card {
     background-color: var(--card-bg-light);
     border-radius: 0.5rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    transition: box-shadow 0.3s ease;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
 body.dark-mode .card {
@@ -48,6 +65,7 @@ body.dark-mode .card {
 
 .card:hover {
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    transform: translateY(-2px);
 }
 
 .card-title {
@@ -104,4 +122,58 @@ body.dark-mode .icon {
     color: var(--text-dark);
 }
 
-/* Add more custom styles as needed */
+/* Mood tracking */
+.mood-icon {
+    font-size: 2rem;
+    color: var(--accent);
+}
+
+/* Form inputs */
+input[type="text"],
+input[type="date"],
+input[type="number"],
+textarea,
+select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    background-color: var(--bg-light);
+    color: var(--text-light);
+    transition: border-color 0.3s ease;
+}
+
+body.dark-mode input[type="text"],
+body.dark-mode input[type="date"],
+body.dark-mode input[type="number"],
+body.dark-mode textarea,
+body.dark-mode select {
+    background-color: var(--bg-dark);
+    color: var(--text-dark);
+    border-color: #4b5563;
+}
+
+input[type="text"]:focus,
+input[type="date"]:focus,
+input[type="number"]:focus,
+textarea:focus,
+select:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.2);
+}
+
+/* Gamification */
+.badge {
+    display: inline-block;
+    padding: 0.25rem 0.5rem;
+    background-color: var(--accent);
+    color: var(--text-light);
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+body.dark-mode .badge {
+    color: var(--text-dark);
+}

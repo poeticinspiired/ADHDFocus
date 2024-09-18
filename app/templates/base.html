@@ -4,21 +4,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}ADHD Focus App{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<body class="bg-gray-100 text-gray-900 transition-colors duration-200" id="body">
-    <nav class="bg-gray-200 p-4 transition-colors duration-200" id="navbar">
+<body class="bg-gray-100 text-gray-900 font-roboto transition-colors duration-200" id="body">
+    <nav class="bg-gray-200 p-4 transition-colors duration-200 shadow-md" id="navbar">
         <div class="container mx-auto flex justify-between items-center">
             <a href="{{ url_for('index') }}" class="text-gray-800 text-2xl font-bold hover:text-yellow-500 transition-colors duration-200">ADHD Focus</a>
-            <div class="flex items-center">
-                <a href="{{ url_for('tasks.tasks') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Tasks</a>
-                <a href="{{ url_for('habits.habits') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Habits</a>
-                <a href="{{ url_for('focus.focus') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Focus</a>
-                <a href="{{ url_for('mood.mood') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Mood</a>
-                <a href="{{ url_for('insights.insights') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Insights</a>
-                <a href="{{ url_for('resources.resources') }}" class="text-gray-800 mr-4 hover:text-yellow-500 transition-colors duration-200">Resources</a>
+            <div class="flex items-center space-x-4">
+                <a href="{{ url_for('tasks.tasks') }}" class="nav-link"><i class="fas fa-tasks mr-2"></i>Tasks</a>
+                <a href="{{ url_for('habits.habits') }}" class="nav-link"><i class="fas fa-calendar-check mr-2"></i>Habits</a>
+                <a href="{{ url_for('focus.focus') }}" class="nav-link"><i class="fas fa-bullseye mr-2"></i>Focus</a>
+                <a href="{{ url_for('mood.mood') }}" class="nav-link"><i class="fas fa-smile mr-2"></i>Mood</a>
+                <a href="{{ url_for('insights.insights') }}" class="nav-link"><i class="fas fa-chart-line mr-2"></i>Insights</a>
+                <a href="{{ url_for('resources.resources') }}" class="nav-link"><i class="fas fa-book mr-2"></i>Resources</a>
                 <button id="theme-toggle" class="text-gray-800 hover:text-yellow-500 transition-colors duration-200">
                     <i class="fas fa-adjust"></i>
                 </button>
