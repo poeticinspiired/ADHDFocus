@@ -63,11 +63,31 @@ document.addEventListener('DOMContentLoaded', function() {
             data.achievements.forEach(achievement => {
                 achievements.appendChild(createBadge(achievement));
             });
+
+            // Add fade-in animation to all updated elements
+            document.querySelectorAll('.card, .progress-bar, #mood-icons, #achievements').forEach(el => {
+                el.classList.add('fade-in');
+            });
         })
         .catch(error => {
             console.error('Error fetching user progress:', error);
             showNotification('Error loading dashboard data. Please try again later.');
         });
+
+    // Add slide-in animation to cards on scroll
+    const cards = document.querySelectorAll('.card');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('slide-in');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    cards.forEach(card => {
+        observer.observe(card);
+    });
 });
 
 // Function to update progress bars
@@ -89,10 +109,24 @@ function createBadge(text) {
 // Function to show a notification
 function showNotification(message) {
     const notification = document.createElement('div');
-    notification.className = 'fixed top-4 right-4 bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg shadow-lg';
+    notification.className = 'fixed top-4 right-4 bg-yellow-500 text-gray-900 px-4 py-2 rounded-lg shadow-lg fade-in';
     notification.textContent = message;
     document.body.appendChild(notification);
     setTimeout(() => {
-        notification.remove();
+        notification.classList.remove('fade-in');
+        notification.classList.add('fade-out');
+        setTimeout(() => {
+            notification.remove();
+        }, 300);
     }, 3000);
 }
+
+// Add smooth scrolling to all links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+            behavior: 'smooth'
+        });
+    });
+});
