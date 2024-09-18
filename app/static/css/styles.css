@@ -197,12 +197,23 @@ body.dark-mode .sun-moon::after {
 
 #focus-3d {
     position: relative;
+    width: 100%;
+    height: 100vh;
+}
+
+#focus-title, #focus-timer {
+    text-align: center;
+    width: 100%;
+}
+
+#focus-timer {
+    font-size: 6rem;
 }
 
 #start-focus {
     position: absolute;
-    top: 50%;
+    bottom: 25%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translateX(-50%);
     z-index: 10;
 }

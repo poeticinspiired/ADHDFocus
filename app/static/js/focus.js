@@ -11,12 +11,12 @@ function initThreeJS() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('focus-3d').appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry(2, 2, 2);
+    const geometry = new THREE.BoxGeometry(3, 3, 3);
     const material = new THREE.MeshBasicMaterial({ color: 0xffd700 });
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
 
-    camera.position.z = 5;
+    camera.position.z = 7;
 
     animate();
 }
@@ -46,7 +46,7 @@ function updateTimerDisplay(time) {
     timerDisplay.style.top = '50%';
     timerDisplay.style.left = '50%';
     timerDisplay.style.transform = 'translate(-50%, -50%)';
-    timerDisplay.style.fontSize = '4rem';
+    timerDisplay.style.fontSize = '6rem';
     timerDisplay.style.color = '#ffd700';
     timerDisplay.style.zIndex = '20';
     timerDisplay.style.textShadow = '2px 2px 4px rgba(0,0,0,0.5)';
@@ -86,7 +86,6 @@ function startFocusSession() {
         const time = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
         updateTimerDisplay(time);
         
-        // Update 3D cube rotation speed based on elapsed time
         cube.rotation.x = elapsedTime * 0.01;
         cube.rotation.y = elapsedTime * 0.01;
     }, 1000);
@@ -108,7 +107,7 @@ function endFocusSession() {
     startButton.style.display = 'inline-block';
     endButton.style.display = 'none';
 
-    const duration = Math.floor((Date.now() - startTime) / 60000); // Duration in minutes
+    const duration = Math.floor((Date.now() - startTime) / 60000);
 
     fetch('/api/focus/end', {
         method: 'POST',
