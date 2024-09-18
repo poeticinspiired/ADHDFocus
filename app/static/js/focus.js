@@ -39,6 +39,31 @@ function positionButton() {
     button.style.top = `${vector.y}px`;
 }
 
+function updateTimerDisplay(time) {
+    const timerDisplay = document.getElementById('focus-timer');
+    timerDisplay.textContent = time;
+    timerDisplay.style.position = 'absolute';
+    timerDisplay.style.top = '50%';
+    timerDisplay.style.left = '50%';
+    timerDisplay.style.transform = 'translate(-50%, -50%)';
+    timerDisplay.style.fontSize = '4rem';
+    timerDisplay.style.color = '#ffd700'; // Yellow accent color
+    timerDisplay.style.zIndex = '20';
+    timerDisplay.style.textShadow = '2px 2px 4px rgba(0,0,0,0.5)';
+}
+
+function pulseAnimation() {
+    const timerDisplay = document.getElementById('focus-timer');
+    timerDisplay.animate([
+        { transform: 'translate(-50%, -50%) scale(1)' },
+        { transform: 'translate(-50%, -50%) scale(1.05)' },
+        { transform: 'translate(-50%, -50%) scale(1)' }
+    ], {
+        duration: 1000,
+        iterations: Infinity
+    });
+}
+
 function startFocusSession() {
     const startButton = document.getElementById('start-focus');
     const endButton = document.getElementById('end-focus');
@@ -50,12 +75,16 @@ function startFocusSession() {
     focusMessage.textContent = 'Focus session in progress...';
     focusMessage.classList.add('text-yellow-500');
 
+    updateTimerDisplay('25:00');
+    pulseAnimation();
+
     startTime = Date.now();
     focusTimer = setInterval(() => {
         const elapsedTime = Math.floor((Date.now() - startTime) / 1000);
         const minutes = Math.floor(elapsedTime / 60);
         const seconds = elapsedTime % 60;
-        timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        const time = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        updateTimerDisplay(time);
         
         // Update 3D cube rotation speed based on elapsed time
         cube.rotation.x = elapsedTime * 0.01;
