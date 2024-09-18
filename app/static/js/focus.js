@@ -47,7 +47,7 @@ function updateTimerDisplay(time) {
     timerDisplay.style.left = '50%';
     timerDisplay.style.transform = 'translate(-50%, -50%)';
     timerDisplay.style.fontSize = '4rem';
-    timerDisplay.style.color = '#ffd700'; // Yellow accent color
+    timerDisplay.style.color = '#ffd700';
     timerDisplay.style.zIndex = '20';
     timerDisplay.style.textShadow = '2px 2px 4px rgba(0,0,0,0.5)';
 }
