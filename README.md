@@ -1,3 +1,4 @@
+![Screenshot 2024-09-18 182347](https://github.com/user-attachments/assets/4e0daa21-2a31-4dd7-815d-e9a19e43c90d)
 # ADHD Focus App
 
 ADHD Focus App is a productivity and mental health management tool designed to help individuals with ADHD improve their daily organization, habits, focus, and mood tracking. This app combines a simple, intuitive interface with powerful features such as task management, habit tracking, a focus timer (Pomodoro technique), mood logging, and personalized insights, all tailored to support users in managing ADHD-related challenges.
