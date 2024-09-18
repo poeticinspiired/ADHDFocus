@@ -1,8 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
 
     themeToggle.addEventListener('click', function() {
         body.classList.toggle('dark-mode');
@@ -14,11 +12,6 @@ document.addEventListener('DOMContentLoaded', function() {
     if (darkMode === 'true') {
         body.classList.add('dark-mode');
     }
-
-    // Mobile menu toggle
-    mobileMenuToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-    });
 
     // Fetch user progress data and update the dashboard
     fetch('/api/user_progress')
