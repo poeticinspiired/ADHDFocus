@@ -6,7 +6,7 @@
     
     <div class="bg-white p-6 rounded-lg shadow-md mb-6">
         <h2 class="text-2xl font-semibold mb-4">Google Calendar</h2>
-        {% if current_user.google_credentials %}
+        {% if session.get('google_credentials') %}
             <p class="text-green-600 mb-4">Connected</p>
             <a href="{{ url_for('integrations.sync_google_calendar') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Sync Calendar</a>
         {% else %}
@@ -17,7 +17,7 @@
 
     <div class="bg-white p-6 rounded-lg shadow-md">
         <h2 class="text-2xl font-semibold mb-4">Todoist</h2>
-        {% if current_user.todoist_token %}
+        {% if session.get('todoist_token') %}
             <p class="text-green-600 mb-4">Connected</p>
             <a href="{{ url_for('integrations.sync_todoist') }}" class="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600">Sync Todoist</a>
         {% else %}

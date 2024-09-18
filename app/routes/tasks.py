@@ -1,18 +1,14 @@
 from flask import Blueprint, render_template, request, jsonify
-from flask_login import login_required, current_user
 from app.models import Task
 from app import db
-from app.routes.gamification import award_points, check_and_award_badge
 
 bp = Blueprint('tasks', __name__)
 
 @bp.route('/tasks')
-@login_required
 def tasks():
     return render_template('tasks.html')
 
 @bp.route('/api/tasks', methods=['GET', 'POST'])
-@login_required
 def api_tasks():
     if request.method == 'POST':
         data = request.json
@@ -20,14 +16,13 @@ def api_tasks():
             title=data['title'],
             description=data.get('description', ''),
             due_date=data.get('due_date'),
-            priority=data.get('priority', 1),
-            user_id=current_user.id
+            priority=data.get('priority', 1)
         )
         db.session.add(new_task)
         db.session.commit()
         return jsonify({"message": "Task created successfully", "id": new_task.id}), 201
     else:
-        tasks = Task.query.filter_by(user_id=current_user.id).all()
+        tasks = Task.query.all()
         return jsonify([{
             "id": task.id,
             "title": task.title,
@@ -38,11 +33,8 @@ def api_tasks():
         } for task in tasks])
 
 @bp.route('/api/tasks/<int:task_id>', methods=['PUT', 'DELETE'])
-@login_required
 def api_task(task_id):
     task = Task.query.get_or_404(task_id)
-    if task.user_id != current_user.id:
-        return jsonify({"error": "Unauthorized"}), 403
     
     if request.method == 'PUT':
         data = request.json
@@ -50,16 +42,8 @@ def api_task(task_id):
         task.description = data.get('description', task.description)
         task.due_date = data.get('due_date', task.due_date)
         task.priority = data.get('priority', task.priority)
-        
-        was_completed = task.completed
         task.completed = data.get('completed', task.completed)
-        
         db.session.commit()
-        
-        if not was_completed and task.completed:
-            award_points(current_user, 10)  # Award 10 points for completing a task
-            check_and_award_badge(current_user, "Task Master")
-        
         return jsonify({"message": "Task updated successfully"})
     elif request.method == 'DELETE':
         db.session.delete(task)

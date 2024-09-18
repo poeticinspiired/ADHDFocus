@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, jsonify
-from flask_login import login_required, current_user
 from app.models import Mood, Task
 from sqlalchemy import func
 from datetime import datetime, timedelta
@@ -7,53 +6,48 @@ from datetime import datetime, timedelta
 bp = Blueprint('insights', __name__)
 
 @bp.route('/insights')
-@login_required
 def insights():
     return render_template('insights.html')
 
 @bp.route('/api/insights')
-@login_required
 def get_insights():
     # Get mood data for the last 30 days
     thirty_days_ago = datetime.utcnow() - timedelta(days=30)
-    moods = Mood.query.filter(Mood.user_id == current_user.id, Mood.created_at >= thirty_days_ago).all()
+    moods = Mood.query.filter(Mood.created_at >= thirty_days_ago).all()
 
     # Get task data for the last 30 days
-    tasks = Task.query.filter(Task.user_id == current_user.id, Task.created_at >= thirty_days_ago).all()
+    tasks = Task.query.filter(Task.created_at >= thirty_days_ago).all()
 
     # Generate insights
     insights = []
 
-    # User points insight
-    insights.append(f"You currently have {current_user.points} points. Keep up the good work!")
-
     # Mood-related insights
     if moods:
         avg_mood = sum(mood.mood for mood in moods) / len(moods)
-        insights.append(f"Your average mood over the last 30 days is {avg_mood:.2f} out of 10.")
+        insights.append(f"The average mood over the last 30 days is {avg_mood:.2f} out of 10.")
 
         mood_energy_correlation = calculate_mood_energy_correlation(moods)
         if mood_energy_correlation > 0.5:
-            insights.append("There's a strong positive correlation between your mood and energy levels. Consider focusing on activities that boost your energy to improve your overall mood.")
+            insights.append("There's a strong positive correlation between mood and energy levels. Consider focusing on activities that boost energy to improve overall mood.")
         elif mood_energy_correlation < -0.5:
-            insights.append("There's a strong negative correlation between your mood and energy levels. You might want to explore relaxation techniques to balance your energy and improve your mood.")
+            insights.append("There's a strong negative correlation between mood and energy levels. Explore relaxation techniques to balance energy and improve mood.")
 
     # Task-related insights
     if tasks:
         completed_tasks = [task for task in tasks if task.completed]
         completion_rate = len(completed_tasks) / len(tasks) * 100
-        insights.append(f"Your task completion rate over the last 30 days is {completion_rate:.2f}%.")
+        insights.append(f"The task completion rate over the last 30 days is {completion_rate:.2f}%.")
 
         if completion_rate < 50:
-            insights.append("Consider breaking down your tasks into smaller, more manageable steps to improve your completion rate.")
+            insights.append("Consider breaking down tasks into smaller, more manageable steps to improve the completion rate.")
         elif completion_rate > 80:
-            insights.append("Great job on completing your tasks! Keep up the good work and challenge yourself with more complex goals.")
+            insights.append("Great job on completing tasks! Keep up the good work and challenge yourself with more complex goals.")
 
     # Combine mood and task insights
     if moods and tasks:
         productive_mood = find_most_productive_mood(moods, tasks)
         if productive_mood:
-            insights.append(f"You seem to be most productive when your mood is around {productive_mood:.2f}. Try to create environments that foster this mood to boost your productivity.")
+            insights.append(f"The most productive mood seems to be around {productive_mood:.2f}. Try to create environments that foster this mood to boost productivity.")
 
     return jsonify(insights)
 
