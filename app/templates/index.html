@@ -1,54 +1,56 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200 slide-in">Welcome to ADHD Focus</h1>
-<p class="text-xl text-center mb-12 text-gray-600 dark:text-gray-400 fade-in">Your personal assistant for managing ADHD and improving productivity.</p>
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200 slide-in">Welcome to ADHD Focus</h1>
+    <p class="text-xl text-center mb-12 text-gray-600 dark:text-gray-400 fade-in">Your personal assistant for managing ADHD and improving productivity.</p>
 
-<div class="grid-container">
-    <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.1s;">
-        <h2 class="card-title text-2xl mb-4"><i class="fas fa-tasks text-accent mr-2"></i>Tasks</h2>
-        <div class="progress-bar mb-4">
-            <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
-        </div>
-        <p id="tasks-completed" class="mb-4">0% completed</p>
-        <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4 block text-center">View Tasks</a>
-    </div>
-    <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.2s;">
-        <h2 class="card-title text-2xl mb-4"><i class="fas fa-calendar-check text-accent mr-2"></i>Habits</h2>
-        <div class="progress-bar mb-4">
-            <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
-        </div>
-        <p id="habits-completed" class="mb-4">0% completed</p>
-        <a href="{{ url_for('habits.habits') }}" class="btn mt-4 block text-center">View Habits</a>
-    </div>
-    <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
-        <h2 class="card-title text-2xl mb-4"><i class="fas fa-bullseye text-accent mr-2"></i>Focus</h2>
-        <div id="focus-container" class="relative w-full h-64">
-            <canvas id="focus-canvas" class="absolute inset-0 w-full h-full"></canvas>
-            <div class="absolute inset-0 flex flex-col items-center justify-center">
-                <div id="focus-timer" class="text-4xl font-bold mb-4">25:00</div>
-                <div class="progress-bar mb-4 w-3/4">
-                    <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
-                </div>
-                <p id="focus-minutes" class="mb-4">0 minutes focused today</p>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.1s;">
+            <h2 class="card-title text-2xl mb-4"><i class="fas fa-tasks text-yellow-500 mr-2"></i>Tasks</h2>
+            <div class="progress-bar mb-4">
+                <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
             </div>
+            <p id="tasks-completed" class="mb-4">0% completed</p>
+            <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4 block text-center">View Tasks</a>
         </div>
-        <a href="{{ url_for('focus.focus') }}" class="btn mt-4 block text-center">Start Focus Session</a>
-    </div>
-    <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
-        <h2 class="card-title text-2xl mb-4"><i class="fas fa-smile text-accent mr-2"></i>Mood</h2>
-        <div id="mood-icon" class="text-center text-6xl mb-4">
-            <i class="fas fa-meh"></i>
+        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.2s;">
+            <h2 class="card-title text-2xl mb-4"><i class="fas fa-calendar-check text-green-500 mr-2"></i>Habits</h2>
+            <div class="progress-bar mb-4">
+                <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
+            </div>
+            <p id="habits-completed" class="mb-4">0% completed</p>
+            <a href="{{ url_for('habits.habits') }}" class="btn mt-4 block text-center">View Habits</a>
         </div>
-        <p id="mood-text" class="text-center mb-4">Last mood: Not set</p>
-        <a href="{{ url_for('mood.mood') }}" class="btn mt-4 block text-center">Log Mood</a>
+        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
+            <h2 class="card-title text-2xl mb-4"><i class="fas fa-bullseye text-blue-500 mr-2"></i>Focus</h2>
+            <div id="focus-container" class="relative w-full h-48">
+                <canvas id="focus-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                <div class="absolute inset-0 flex flex-col items-center justify-center">
+                    <div id="focus-timer" class="text-4xl font-bold mb-4">25:00</div>
+                    <div class="progress-bar mb-4 w-3/4">
+                        <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
+                    </div>
+                    <p id="focus-minutes" class="mb-4">0 minutes focused today</p>
+                </div>
+            </div>
+            <a href="{{ url_for('focus.focus') }}" class="btn mt-4 block text-center">Start Focus Session</a>
+        </div>
+        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
+            <h2 class="card-title text-2xl mb-4"><i class="fas fa-smile text-purple-500 mr-2"></i>Mood</h2>
+            <div id="mood-icon" class="text-center text-6xl mb-4">
+                <i class="fas fa-meh"></i>
+            </div>
+            <p id="mood-text" class="text-center mb-4">Last mood: Not set</p>
+            <a href="{{ url_for('mood.mood') }}" class="btn mt-4 block text-center">Log Mood</a>
+        </div>
     </div>
-</div>
 
-<div class="mt-16">
-    <h2 class="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200 slide-in">Your Achievements</h2>
-    <div id="achievements" class="flex flex-wrap justify-center gap-4 fade-in">
-        <!-- Achievements will be dynamically added here -->
+    <div class="mt-16">
+        <h2 class="text-3xl font-bold text-center mb-8 text-gray-800 dark:text-gray-200 slide-in">Your Achievements</h2>
+        <div id="achievements" class="flex flex-wrap justify-center gap-4 fade-in">
+            <!-- Achievements will be dynamically added here -->
+        </div>
     </div>
 </div>
 {% endblock %}
