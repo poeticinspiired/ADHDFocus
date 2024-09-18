@@ -13,13 +13,12 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
-    from app.routes import tasks, habits, focus, mood, resources, forums, insights, gamification
+    from app.routes import tasks, habits, focus, mood, resources, insights, gamification
     app.register_blueprint(tasks.bp)
     app.register_blueprint(habits.bp)
     app.register_blueprint(focus.bp)
     app.register_blueprint(mood.bp)
     app.register_blueprint(resources.bp)
-    app.register_blueprint(forums.bp)
     app.register_blueprint(insights.bp)
     app.register_blueprint(gamification.bp)
 
