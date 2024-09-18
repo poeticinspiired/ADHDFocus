@@ -68,12 +68,14 @@ body.dark-mode .nav-logo {
 .nav-link {
     color: var(--text-light);
     font-weight: 500;
-    transition: color 0.3s;
+    transition: color 0.3s, transform 0.3s;
     padding: 0.5rem 1rem;
+    text-decoration: none;
 }
 
 .nav-link:hover {
     color: var(--accent);
+    transform: translateY(-2px);
 }
 
 body.dark-mode .nav-link {
@@ -136,27 +138,59 @@ body.dark-mode .btn:hover {
     gap: 1.5rem;
 }
 
-@media (max-width: 768px) {
-    .nav-links {
-        display: none;
-    }
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    transition: transform 0.3s;
+}
 
-    .nav-container {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+#theme-toggle:hover {
+    transform: rotate(180deg);
+}
 
-    .nav-logo {
-        margin-bottom: 1rem;
-    }
+.sun-moon {
+    position: relative;
+    width: 24px;
+    height: 24px;
+    background-color: var(--accent);
+    border-radius: 50%;
+    overflow: hidden;
+    transition: all 0.3s;
+}
 
-    .nav-links.active {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-    }
+.sun-moon::after {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    width: 24px;
+    height: 24px;
+    background-color: var(--bg-light);
+    border-radius: 50%;
+    transition: all 0.3s;
+}
 
-    .nav-link {
-        padding: 0.5rem 0;
-    }
+body.dark-mode .sun-moon::after {
+    transform: translateX(16px);
+    background-color: var(--bg-dark);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+.slide-in {
+    animation: slideIn 0.5s ease-in-out;
 }

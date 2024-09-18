@@ -2,20 +2,22 @@
 
 {% block content %}
 <div class="max-w-2xl mx-auto text-center">
-    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200">Focus Mode</h1>
-    <div id="focus-timer" class="text-6xl font-bold mb-8 text-gray-800 dark:text-gray-200">25:00</div>
-    <div class="space-x-4">
-        <button id="start-focus" class="btn bg-yellow-500 hover:bg-yellow-600 text-gray-800">
+    <h1 class="text-3xl font-bold mb-6 text-gray-800 dark:text-gray-200 slide-in">Focus Mode</h1>
+    <div id="focus-timer" class="text-6xl font-bold mb-8 text-gray-800 dark:text-gray-200 fade-in">25:00</div>
+    <div class="space-x-4 mb-8">
+        <button id="start-focus" class="btn bg-yellow-500 hover:bg-yellow-600 text-gray-800 transform hover:scale-105 transition-all">
             Start Focus Session
         </button>
-        <button id="end-focus" class="btn bg-red-500 hover:bg-red-600 text-white" style="display: none;">
+        <button id="end-focus" class="btn bg-red-500 hover:bg-red-600 text-white transform hover:scale-105 transition-all" style="display: none;">
             End Focus Session
         </button>
     </div>
-    <div id="focus-message" class="mt-8 text-xl text-gray-600 dark:text-gray-400"></div>
+    <div id="focus-message" class="mt-4 text-xl text-gray-600 dark:text-gray-400 fade-in"></div>
+    <div id="focus-3d" class="mt-8 w-full h-64 rounded-lg shadow-lg overflow-hidden"></div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="{{ url_for('static', filename='js/focus.js') }}"></script>
 {% endblock %}
