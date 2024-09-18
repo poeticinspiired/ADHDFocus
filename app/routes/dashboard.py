@@ -35,14 +35,16 @@ def user_progress():
         # Get achievements (this is a placeholder, you'll need to implement an achievement system)
         achievements = ['Task Master', 'Habit Hero', 'Focus Champion']
 
-        return jsonify({
+        response_data = {
             'tasks_completed': round(tasks_completed, 2),
             'habits_completed': round(habits_completed, 2),
             'focus_minutes': focus_minutes,
             'last_mood_icon': mood_icon,
             'last_mood': mood_text,
             'achievements': achievements
-        }), 200
+        }
+        logging.info(f"User progress data: {response_data}")
+        return jsonify(response_data), 200
     except SQLAlchemyError as e:
         logging.error(f"Database error in user_progress: {str(e)}")
         return jsonify({'error': 'Database error', 'message': 'An error occurred while fetching user progress'}), 500
