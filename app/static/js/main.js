@@ -24,6 +24,50 @@ document.addEventListener('DOMContentLoaded', function() {
             link.classList.add('bg-yellow-100');
         }
     });
+
+    // Fetch user progress data and update the dashboard
+    fetch('/api/user_progress')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => {
+            updateProgressBar('tasks-progress', data.tasks_completed);
+            updateProgressBar('habits-progress', data.habits_completed);
+            updateProgressBar('focus-progress', data.focus_minutes / 60 * 100); // Assuming 60 minutes is 100%
+
+            const tasksCompleted = document.querySelector('#tasks-progress').nextElementSibling;
+            tasksCompleted.textContent = `${data.tasks_completed}% completed`;
+
+            const habitsCompleted = document.querySelector('#habits-progress').nextElementSibling;
+            habitsCompleted.textContent = `${data.habits_completed}% completed`;
+
+            const focusMinutes = document.querySelector('#focus-progress').nextElementSibling;
+            focusMinutes.textContent = `${data.focus_minutes} minutes focused today`;
+
+            // Update mood icon
+            const moodIcons = document.getElementById('mood-icons');
+            moodIcons.innerHTML = '';
+            const moodIcon = document.createElement('i');
+            moodIcon.className = `fas fa-${data.last_mood_icon} mood-icon`;
+            moodIcons.appendChild(moodIcon);
+
+            const lastMood = moodIcons.nextElementSibling;
+            lastMood.textContent = `Last mood: ${data.last_mood}`;
+
+            // Add achievement badges
+            const achievements = document.getElementById('achievements');
+            achievements.innerHTML = '';
+            data.achievements.forEach(achievement => {
+                achievements.appendChild(createBadge(achievement));
+            });
+        })
+        .catch(error => {
+            console.error('Error fetching user progress:', error);
+            showNotification('Error loading dashboard data. Please try again later.');
+        });
 });
 
 // Function to update progress bars

@@ -12,6 +12,7 @@ body {
     font-family: 'Roboto', sans-serif;
     background-color: var(--bg-light);
     color: var(--text-light);
+    padding-top: 4rem;
 }
 
 body.dark-mode {
@@ -26,17 +27,19 @@ body.dark-mode {
 }
 
 #navbar {
-    background-color: var(--bg-light);
+    background-image: linear-gradient(to right, #f3f4f6, #e5e7eb);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 body.dark-mode #navbar {
-    background-color: var(--bg-dark);
+    background-image: linear-gradient(to right, #1f2937, #374151);
 }
 
 .nav-link {
     color: var(--text-light);
     font-weight: 500;
-    transition: color 0.3s ease, background-color 0.3s ease;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, background-color 0.3s ease, transform 0.3s ease;
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
 }
@@ -44,6 +47,7 @@ body.dark-mode #navbar {
 .nav-link:hover {
     color: var(--accent);
     background-color: rgba(251, 191, 36, 0.1);
+    transform: translateY(-2px);
 }
 
 body.dark-mode .nav-link {
@@ -85,12 +89,13 @@ body.dark-mode .card-title {
     padding: 0.5rem 1rem;
     border-radius: 0.25rem;
     font-weight: bold;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
 .btn:hover {
     background-color: var(--text-light);
     color: var(--accent);
+    transform: translateY(-2px);
 }
 
 body.dark-mode .btn:hover {
