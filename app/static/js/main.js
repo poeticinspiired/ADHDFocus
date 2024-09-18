@@ -71,7 +71,7 @@ function updateMoodIcon(iconName, mood) {
     const moodIcon = document.getElementById('mood-icon');
     const moodText = document.getElementById('mood-text');
     if (moodIcon && moodText) {
-        moodIcon.className = `fas fa-${iconName}`;
+        moodIcon.innerHTML = `<i class="fas fa-${iconName}"></i>`;
         moodText.textContent = `Last mood: ${mood}`;
     } else {
         console.error('Mood elements not found');
@@ -99,6 +99,12 @@ function showNotification(message, type) {
     notification.textContent = message;
     document.body.appendChild(notification);
     setTimeout(() => {
-        notification.remove();
-    }, 3000);
+        notification.classList.add('show');
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }, 3000);
+    }, 100);
 }
