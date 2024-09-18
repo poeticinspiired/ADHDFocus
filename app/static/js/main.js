@@ -18,6 +18,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up interval to fetch user progress every 5 minutes
     setInterval(fetchUserProgress, 300000);
+
+    // Load and display a daily quote
+    loadDailyQuote();
 });
 
 function fetchUserProgress() {
@@ -98,9 +101,9 @@ function updateAchievements(achievements) {
         achievementsContainer.innerHTML = '';
         achievements.forEach((achievement, index) => {
             const badge = document.createElement('span');
-            badge.className = 'badge slide-in';
+            badge.className = 'achievement-badge slide-in';
             badge.style.animationDelay = `${index * 0.1}s`;
-            badge.textContent = achievement;
+            badge.innerHTML = `<i class="fas fa-trophy"></i>${achievement}`;
             achievementsContainer.appendChild(badge);
         });
     } else {
@@ -132,6 +135,21 @@ function showNotification(message, type) {
             }, 300);
         }, 3000);
     }, 100);
+}
+
+function loadDailyQuote() {
+    const quotes = [
+        "The only way to do great work is to love what you do. - Steve Jobs",
+        "Believe you can and you're halfway there. - Theodore Roosevelt",
+        "Your time is limited, don't waste it living someone else's life. - Steve Jobs",
+        "The future belongs to those who believe in the beauty of their dreams. - Eleanor Roosevelt",
+        "Success is not final, failure is not fatal: it is the courage to continue that counts. - Winston Churchill"
+    ];
+    const quoteElement = document.getElementById('daily-quote');
+    if (quoteElement) {
+        const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
+        quoteElement.textContent = randomQuote;
+    }
 }
 
 // Add more interactive features and animations as needed

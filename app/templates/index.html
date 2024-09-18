@@ -6,26 +6,35 @@
     <p class="text-xl text-center mb-12 text-gray-600 dark:text-gray-400 fade-in">Your personal assistant for managing ADHD and improving productivity.</p>
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.1s;">
-            <h2 class="card-title text-2xl mb-4"><i class="fas fa-tasks text-yellow-500 mr-2"></i>Tasks</h2>
+        <div class="card tasks-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.1s;">
+            <div class="card-header">
+                <i class="fas fa-tasks"></i>
+                <h2 class="section-header">Tasks</h2>
+            </div>
             <div class="progress-bar mb-4">
                 <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
             </div>
             <p id="tasks-completed" class="mb-4">0% completed</p>
             <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4 block text-center">View Tasks</a>
         </div>
-        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.2s;">
-            <h2 class="card-title text-2xl mb-4"><i class="fas fa-calendar-check text-green-500 mr-2"></i>Habits</h2>
+        <div class="card habits-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.2s;">
+            <div class="card-header">
+                <i class="fas fa-calendar-check"></i>
+                <h2 class="section-header">Habits</h2>
+            </div>
             <div class="progress-bar mb-4">
                 <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
             </div>
             <p id="habits-completed" class="mb-4">0% completed</p>
             <a href="{{ url_for('habits.habits') }}" class="btn mt-4 block text-center">View Habits</a>
         </div>
-        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
-            <h2 class="card-title text-2xl mb-4"><i class="fas fa-bullseye text-blue-500 mr-2"></i>Focus</h2>
+        <div class="card focus-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
+            <div class="card-header">
+                <i class="fas fa-bullseye"></i>
+                <h2 class="section-header">Focus</h2>
+            </div>
             <div id="focus-container" class="relative w-full h-48">
-                <canvas id="focus-canvas" class="absolute inset-0 w-full h-full"></canvas>
+                <div id="focus-background" class="absolute inset-0"></div>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                     <div id="focus-timer" class="text-4xl font-bold mb-4">25:00</div>
                     <div class="progress-bar mb-4 w-3/4">
@@ -36,8 +45,11 @@
             </div>
             <a href="{{ url_for('focus.focus') }}" class="btn mt-4 block text-center">Start Focus Session</a>
         </div>
-        <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
-            <h2 class="card-title text-2xl mb-4"><i class="fas fa-smile text-purple-500 mr-2"></i>Mood</h2>
+        <div class="card mood-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
+            <div class="card-header">
+                <i class="fas fa-smile"></i>
+                <h2 class="section-header">Mood</h2>
+            </div>
             <div id="mood-icon" class="text-center text-6xl mb-4">
                 <i class="fas fa-meh"></i>
             </div>
@@ -51,6 +63,11 @@
         <div id="achievements" class="flex flex-wrap justify-center gap-4 fade-in">
             <!-- Achievements will be dynamically added here -->
         </div>
+    </div>
+
+    <div class="mt-16 text-center">
+        <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Daily Motivation</h3>
+        <p id="daily-quote" class="text-xl text-gray-600 dark:text-gray-400 italic">"Your daily dose of inspiration goes here."</p>
     </div>
 </div>
 {% endblock %}
