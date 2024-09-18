@@ -1,9 +1,12 @@
 document.addEventListener('DOMContentLoaded', function() {
     const themeToggle = document.getElementById('theme-toggle');
     const body = document.body;
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
 
     themeToggle.addEventListener('click', function() {
         body.classList.toggle('dark-mode');
+        updateThemeIcons();
         localStorage.setItem('darkMode', body.classList.contains('dark-mode'));
     });
 
@@ -12,6 +15,7 @@ document.addEventListener('DOMContentLoaded', function() {
     if (darkMode === 'true') {
         body.classList.add('dark-mode');
     }
+    updateThemeIcons();
 
     // Fetch user progress data and update the dashboard
     fetchUserProgress();
@@ -21,7 +25,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Load and display a daily quote
     loadDailyQuote();
+
+    // Initialize 3D elements
+    initDashboard3D();
+
+    // Add smooth scrolling to navigation links
+    addSmoothScrolling();
 });
+
+function updateThemeIcons() {
+    const body = document.body;
+    const lightIcon = document.getElementById('theme-toggle-light-icon');
+    const darkIcon = document.getElementById('theme-toggle-dark-icon');
+
+    if (body.classList.contains('dark-mode')) {
+        lightIcon.classList.add('hidden');
+        darkIcon.classList.remove('hidden');
+    } else {
+        lightIcon.classList.remove('hidden');
+        darkIcon.classList.add('hidden');
+    }
+}
 
 function fetchUserProgress() {
     fetch('/api/user_progress')
@@ -54,6 +78,9 @@ function updateDashboard(data) {
         updateMoodIcon(data.last_mood_icon, data.last_mood);
         updateAchievements(data.achievements);
 
+        // Update 3D visualization
+        updateDashboard3D(data);
+
         // Add animations to newly updated elements
         animateUpdatedElements();
     } catch (error) {
@@ -65,8 +92,11 @@ function updateDashboard(data) {
 function updateProgressBar(id, value) {
     const progressBar = document.getElementById(id);
     if (progressBar) {
-        progressBar.style.width = `${value}%`;
-        progressBar.style.transition = 'width 1s ease-in-out';
+        gsap.to(progressBar, {
+            width: `${value}%`,
+            duration: 1,
+            ease: 'power2.out'
+        });
     } else {
         console.warn(`Progress bar element not found: ${id}`);
     }
@@ -76,7 +106,12 @@ function updateText(id, text) {
     const element = document.getElementById(id);
     if (element) {
         element.textContent = text;
-        element.classList.add('updated');
+        gsap.from(element, {
+            opacity: 0,
+            y: 20,
+            duration: 0.5,
+            ease: 'back.out'
+        });
     } else {
         console.warn(`Text element not found: ${id}`);
     }
@@ -88,8 +123,13 @@ function updateMoodIcon(iconName, mood) {
     if (moodIcon && moodText) {
         moodIcon.innerHTML = `<i class="fas fa-${iconName}"></i>`;
         moodText.textContent = `Last mood: ${mood}`;
-        moodIcon.classList.add('updated');
-        moodText.classList.add('updated');
+        gsap.from([moodIcon, moodText], {
+            scale: 0.5,
+            opacity: 0,
+            duration: 0.5,
+            ease: 'back.out',
+            stagger: 0.1
+        });
     } else {
         console.warn('Mood elements not found');
     }
@@ -101,24 +141,20 @@ function updateAchievements(achievements) {
         achievementsContainer.innerHTML = '';
         achievements.forEach((achievement, index) => {
             const badge = document.createElement('span');
-            badge.className = 'achievement-badge slide-in';
-            badge.style.animationDelay = `${index * 0.1}s`;
+            badge.className = 'achievement-badge';
             badge.innerHTML = `<i class="fas fa-trophy"></i>${achievement}`;
             achievementsContainer.appendChild(badge);
+            gsap.from(badge, {
+                scale: 0,
+                opacity: 0,
+                duration: 0.5,
+                ease: 'back.out',
+                delay: index * 0.1
+            });
         });
     } else {
         console.warn('Achievements container not found');
     }
-}
-
-function animateUpdatedElements() {
-    const updatedElements = document.querySelectorAll('.updated');
-    updatedElements.forEach(element => {
-        element.classList.add('animate-update');
-        element.addEventListener('animationend', () => {
-            element.classList.remove('animate-update', 'updated');
-        }, { once: true });
-    });
 }
 
 function showNotification(message, type) {
@@ -126,15 +162,20 @@ function showNotification(message, type) {
     notification.className = `notification ${type}`;
     notification.textContent = message;
     document.body.appendChild(notification);
-    setTimeout(() => {
-        notification.classList.add('show');
-        setTimeout(() => {
-            notification.classList.remove('show');
+    gsap.fromTo(notification, 
+        { y: 50, opacity: 0 },
+        { y: 0, opacity: 1, duration: 0.5, ease: 'power2.out', onComplete: () => {
             setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 3000);
-    }, 100);
+                gsap.to(notification, { 
+                    y: 50, 
+                    opacity: 0, 
+                    duration: 0.5, 
+                    ease: 'power2.in',
+                    onComplete: () => notification.remove()
+                });
+            }, 3000);
+        }}
+    );
 }
 
 function loadDailyQuote() {
@@ -149,7 +190,88 @@ function loadDailyQuote() {
     if (quoteElement) {
         const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
         quoteElement.textContent = randomQuote;
+        gsap.from(quoteElement, {
+            y: 20,
+            opacity: 0,
+            duration: 1,
+            ease: 'power2.out'
+        });
     }
 }
 
-// Add more interactive features and animations as needed
+let scene, camera, renderer, cube;
+
+function initDashboard3D() {
+    const container = document.getElementById('dashboard-3d-container');
+    if (!container) return;
+
+    scene = new THREE.Scene();
+    camera = new THREE.PerspectiveCamera(75, container.clientWidth / container.clientHeight, 0.1, 1000);
+    renderer = new THREE.WebGLRenderer({ alpha: true });
+
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    const geometry = new THREE.BoxGeometry();
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
+    cube = new THREE.Mesh(geometry, material);
+
+    scene.add(cube);
+    camera.position.z = 5;
+
+    animate();
+
+    window.addEventListener('resize', () => {
+        camera.aspect = container.clientWidth / container.clientHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(container.clientWidth, container.clientHeight);
+    });
+}
+
+function animate() {
+    requestAnimationFrame(animate);
+    cube.rotation.x += 0.01;
+    cube.rotation.y += 0.01;
+    renderer.render(scene, camera);
+}
+
+function updateDashboard3D(data) {
+    if (!cube) return;
+
+    // Update cube color based on overall progress
+    const totalProgress = (data.tasks_completed + data.habits_completed + (data.focus_minutes / 60)) / 3;
+    const hue = totalProgress * 120 / 100; // 0 to 120 (red to green)
+    cube.material.color.setHSL(hue / 360, 1, 0.5);
+
+    // Update cube size based on achievements
+    const scale = 1 + (data.achievements.length * 0.1);
+    gsap.to(cube.scale, {
+        x: scale,
+        y: scale,
+        z: scale,
+        duration: 1,
+        ease: 'elastic.out(1, 0.3)'
+    });
+}
+
+function addSmoothScrolling() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            document.querySelector(this.getAttribute('href')).scrollIntoView({
+                behavior: 'smooth'
+            });
+        });
+    });
+}
+
+function animateUpdatedElements() {
+    gsap.from('.card', {
+        duration: 0.5,
+        y: 20,
+        opacity: 0,
+        stagger: 0.1,
+        ease: 'power2.out'
+    });
+}

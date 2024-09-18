@@ -8,46 +8,50 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="card tasks-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.1s;">
             <div class="card-header">
-                <i class="fas fa-tasks"></i>
+                <i class="fas fa-tasks text-blue-500"></i>
                 <h2 class="section-header">Tasks</h2>
             </div>
-            <div class="progress-bar mb-4">
-                <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="tasks-progress" class="progress-bar-fill" style="width: 0%"></div>
+                </div>
+                <p id="tasks-completed" class="mt-2 text-center">0% completed</p>
             </div>
-            <p id="tasks-completed" class="mb-4">0% completed</p>
             <a href="{{ url_for('tasks.tasks') }}" class="btn mt-4 block text-center">View Tasks</a>
         </div>
         <div class="card habits-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.2s;">
             <div class="card-header">
-                <i class="fas fa-calendar-check"></i>
+                <i class="fas fa-calendar-check text-green-500"></i>
                 <h2 class="section-header">Habits</h2>
             </div>
-            <div class="progress-bar mb-4">
-                <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
+            <div class="progress-container">
+                <div class="progress-bar">
+                    <div id="habits-progress" class="progress-bar-fill" style="width: 0%"></div>
+                </div>
+                <p id="habits-completed" class="mt-2 text-center">0% completed</p>
             </div>
-            <p id="habits-completed" class="mb-4">0% completed</p>
             <a href="{{ url_for('habits.habits') }}" class="btn mt-4 block text-center">View Habits</a>
         </div>
         <div class="card focus-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
             <div class="card-header">
-                <i class="fas fa-bullseye"></i>
+                <i class="fas fa-bullseye text-red-500"></i>
                 <h2 class="section-header">Focus</h2>
             </div>
             <div id="focus-container" class="relative w-full h-48">
                 <div id="focus-background" class="absolute inset-0"></div>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
                     <div id="focus-timer" class="text-4xl font-bold mb-4">25:00</div>
-                    <div class="progress-bar mb-4 w-3/4">
+                    <div class="progress-bar w-3/4">
                         <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
                     </div>
-                    <p id="focus-minutes" class="mb-4">0 minutes focused today</p>
+                    <p id="focus-minutes" class="mt-2 text-center">0 minutes focused today</p>
                 </div>
             </div>
             <a href="{{ url_for('focus.focus') }}" class="btn mt-4 block text-center">Start Focus Session</a>
         </div>
         <div class="card mood-section transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
             <div class="card-header">
-                <i class="fas fa-smile"></i>
+                <i class="fas fa-smile text-yellow-500"></i>
                 <h2 class="section-header">Mood</h2>
             </div>
             <div id="mood-icon" class="text-center text-6xl mb-4">
@@ -69,9 +73,13 @@
         <h3 class="text-2xl font-bold mb-4 text-gray-800 dark:text-gray-200">Daily Motivation</h3>
         <p id="daily-quote" class="text-xl text-gray-600 dark:text-gray-400 italic">"Your daily dose of inspiration goes here."</p>
     </div>
+
+    <div id="dashboard-3d-container" class="fixed bottom-4 right-4 w-64 h-64 z-50"></div>
 </div>
 {% endblock %}
 
 {% block scripts %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.7.1/gsap.min.js"></script>
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

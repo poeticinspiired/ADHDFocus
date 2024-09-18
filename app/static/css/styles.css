@@ -7,10 +7,10 @@
     --accent-secondary: #4299e1;
     --accent-tertiary: #48bb78;
     --accent-quaternary: #ed8936;
-    --card-bg-light: #ffffff;
-    --card-bg-dark: #2d3748;
-    --nav-bg-light: #edf2f7;
-    --nav-bg-dark: #2d3748;
+    --card-bg-light: rgba(255, 255, 255, 0.8);
+    --card-bg-dark: rgba(45, 55, 72, 0.8);
+    --nav-bg-light: rgba(237, 242, 247, 0.9);
+    --nav-bg-dark: rgba(26, 32, 44, 0.9);
     --success: #48bb78;
     --error: #f56565;
     --warning: #ed8936;
@@ -19,17 +19,14 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: var(--bg-light);
+    background: linear-gradient(135deg, var(--bg-light) 0%, #e0e7ff 100%);
     color: var(--text-light);
     transition: background-color 0.3s, color 0.3s;
-    background-image: linear-gradient(to bottom right, rgba(240, 244, 248, 0.8), rgba(226, 232, 240, 0.8));
-    background-attachment: fixed;
 }
 
 body.dark-mode {
-    background-color: var(--bg-dark);
+    background: linear-gradient(135deg, var(--bg-dark) 0%, #2a4365 100%);
     color: var(--text-dark);
-    background-image: linear-gradient(to bottom right, rgba(26, 32, 44, 0.8), rgba(45, 55, 72, 0.8));
 }
 
 .container {
@@ -46,7 +43,8 @@ h1, h2, h3 {
 #navbar {
     background-color: var(--nav-bg-light);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -68,6 +66,8 @@ body.dark-mode #navbar {
     font-weight: bold;
     color: var(--text-light);
     transition: color 0.3s;
+    display: flex;
+    align-items: center;
 }
 
 body.dark-mode .nav-logo {
@@ -82,31 +82,29 @@ body.dark-mode .nav-logo {
 .nav-link {
     color: var(--text-light);
     font-weight: 500;
-    transition: color 0.3s, transform 0.3s;
+    transition: all 0.3s;
     padding: 0.5rem 1rem;
     text-decoration: none;
     position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
 }
 
-.nav-link::after {
+.nav-link::before {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 2px;
     bottom: 0;
     left: 0;
+    width: 100%;
+    height: 2px;
     background-color: var(--accent-primary);
     transform: scaleX(0);
-    transition: transform 0.3s;
+    transition: transform 0.3s ease;
 }
 
-.nav-link:hover::after {
+.nav-link:hover::before {
     transform: scaleX(1);
-}
-
-.nav-link:hover {
-    color: var(--accent-primary);
-    transform: translateY(-2px);
 }
 
 body.dark-mode .nav-link {
@@ -115,11 +113,13 @@ body.dark-mode .nav-link {
 
 .card {
     background-color: var(--card-bg-light);
-    border-radius: 0.5rem;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
     padding: 1.5rem;
     margin-bottom: 1.5rem;
-    transition: box-shadow 0.3s, transform 0.3s, background-color 0.3s;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+    transform: translateZ(0);
 }
 
 body.dark-mode .card {
@@ -127,126 +127,89 @@ body.dark-mode .card {
 }
 
 .card:hover {
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(10px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 }
 
 .btn {
-    background-color: var(--accent-primary);
+    background: linear-gradient(135deg, var(--accent-primary), #ffaa00);
     color: var(--text-light);
     padding: 0.75rem 1.5rem;
-    border-radius: 0.25rem;
+    border-radius: 0.5rem;
     font-weight: bold;
-    transition: background-color 0.3s, color 0.3s, transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
     border: none;
     cursor: pointer;
     display: inline-block;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.3s;
+}
+
+.btn:hover::before {
+    left: 100%;
 }
 
 .btn:hover {
-    background-color: var(--text-light);
-    color: var(--accent-primary);
     transform: translateY(-2px);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-body.dark-mode .btn:hover {
-    background-color: var(--text-dark);
+body.dark-mode .btn {
+    color: var(--text-dark);
 }
 
 .progress-bar {
-    background-color: var(--bg-light);
-    border-radius: 0.25rem;
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 1rem;
     overflow: hidden;
     height: 0.75rem;
+    position: relative;
 }
 
 .progress-bar-fill {
-    background-color: var(--accent-primary);
     height: 100%;
-    transition: width 0.5s ease-in-out;
+    transition: width 1s ease-in-out;
+    border-radius: 1rem;
 }
 
-.grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1.5rem;
-}
+.tasks-section .progress-bar-fill { background: linear-gradient(90deg, var(--accent-secondary), #63b3ed); }
+.habits-section .progress-bar-fill { background: linear-gradient(90deg, var(--accent-tertiary), #68d391); }
+.focus-section .progress-bar-fill { background: linear-gradient(90deg, var(--accent-quaternary), #fbd38d); }
+.mood-section .progress-bar-fill { background: linear-gradient(90deg, var(--accent-primary), #faf089); }
 
-#theme-toggle {
-    background: none;
-    border: none;
-    cursor: pointer;
+.section-header {
     font-size: 1.5rem;
+    margin-bottom: 1rem;
+    position: relative;
+    display: inline-block;
+}
+
+.section-header::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: currentColor;
+    transform: scaleX(0);
     transition: transform 0.3s;
 }
 
-#theme-toggle:hover {
-    transform: rotate(180deg);
-}
-
-.sun-moon {
-    position: relative;
-    width: 24px;
-    height: 24px;
-    background-color: var(--accent-primary);
-    border-radius: 50%;
-    overflow: hidden;
-    transition: all 0.3s;
-}
-
-.sun-moon::after {
-    content: '';
-    position: absolute;
-    top: -8px;
-    left: -8px;
-    width: 24px;
-    height: 24px;
-    background-color: var(--bg-light);
-    border-radius: 50%;
-    transition: all 0.3s;
-}
-
-body.dark-mode .sun-moon::after {
-    transform: translateX(16px);
-    background-color: var(--bg-dark);
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
-
-.fade-in {
-    animation: fadeIn 0.5s ease-in-out;
-}
-
-@keyframes slideIn {
-    from {
-        transform: translateX(-20px);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-}
-
-.slide-in {
-    animation: slideIn 0.5s ease-in-out;
-}
-
-/* Section-specific styles */
-.tasks-section { --section-color: var(--accent-secondary); }
-.habits-section { --section-color: var(--accent-tertiary); }
-.focus-section { --section-color: var(--accent-quaternary); }
-.mood-section { --section-color: var(--accent-primary); }
-
-.section-header {
-    color: var(--section-color);
-    font-size: 1.5rem;
-    margin-bottom: 1rem;
+.section-header:hover::after {
+    transform: scaleX(1);
 }
 
 .card-header {
@@ -256,26 +219,30 @@ body.dark-mode .sun-moon::after {
 }
 
 .card-header i {
-    font-size: 1.5rem;
+    font-size: 2rem;
     margin-right: 0.5rem;
-    color: var(--section-color);
+    transition: transform 0.3s;
 }
 
-/* Achievements styles */
+.card:hover .card-header i {
+    transform: scale(1.1) rotate(5deg);
+}
+
 .achievement-badge {
     display: inline-flex;
     align-items: center;
-    background-color: var(--accent-primary);
+    background: linear-gradient(135deg, var(--accent-primary), #ffaa00);
     color: var(--text-light);
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     margin: 0.25rem;
     font-size: 0.875rem;
-    transition: transform 0.3s, box-shadow 0.3s;
+    transition: all 0.3s;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .achievement-badge:hover {
-    transform: translateY(-2px);
+    transform: translateY(-2px) rotate(2deg);
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -283,12 +250,10 @@ body.dark-mode .sun-moon::after {
     margin-right: 0.5rem;
 }
 
-/* Responsive design */
-@media (max-width: 768px) {
-    .grid-container {
-        grid-template-columns: 1fr;
-    }
+/* Add more styles as needed */
 
+/* Responsive styles */
+@media (max-width: 768px) {
     .nav-links {
         flex-direction: column;
         align-items: center;
@@ -310,61 +275,65 @@ body.dark-mode .sun-moon::after {
     animation: pulse 2s infinite;
 }
 
-/* Focus timer styles */
-#focus-timer {
-    font-size: 3rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
-    transition: color 0.3s;
+.slide-in {
+    opacity: 0;
+    transform: translateY(20px);
+    animation: slideIn 0.5s forwards;
 }
 
-#focus-container {
-    position: relative;
-    overflow: hidden;
+@keyframes slideIn {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    opacity: 0;
+    animation: fadeIn 0.5s forwards;
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Dark mode toggle */
+#theme-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+#theme-toggle i {
+    transition: all 0.3s;
+}
+
+/* Alert styles */
+.alert {
+    padding: 1rem;
     border-radius: 0.5rem;
+    margin-bottom: 1rem;
 }
 
-#focus-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    transition: background 0.5s ease-in-out;
+.alert-success {
+    background-color: var(--success);
+    color: #fff;
 }
 
-/* Mood tracker styles */
-.mood-slider {
-    -webkit-appearance: none;
-    width: 100%;
-    height: 10px;
-    border-radius: 5px;
-    background: #d3d3d3;
-    outline: none;
-    opacity: 0.7;
-    transition: opacity 0.2s;
+.alert-error {
+    background-color: var(--error);
+    color: #fff;
 }
 
-.mood-slider:hover {
-    opacity: 1;
+.alert-warning {
+    background-color: var(--warning);
+    color: #fff;
 }
 
-.mood-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--accent-primary);
-    cursor: pointer;
+.alert-info {
+    background-color: var(--info);
+    color: #fff;
 }
-
-.mood-slider::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    background: var(--accent-primary);
-    cursor: pointer;
-}
-
-/* Add more styles as needed for other components and pages */
