@@ -64,12 +64,12 @@ function updateText(id, text) {
     }
 }
 
-function updateMoodIcon(iconName, moodText) {
+function updateMoodIcon(iconName, mood) {
     const moodIcon = document.getElementById('mood-icon');
     const moodText = document.getElementById('mood-text');
     if (moodIcon && moodText) {
         moodIcon.className = `fas fa-${iconName}`;
-        moodText.textContent = `Last mood: ${moodText}`;
+        moodText.textContent = `Last mood: ${mood}`;
     }
 }
 

@@ -1,12 +1,12 @@
 :root {
-    --bg-light: #f5f5f5;
+    --bg-light: #f0f0f0;
     --bg-dark: #1a1a1a;
     --text-light: #333333;
     --text-dark: #f0f0f0;
     --accent: #ffd700;
-    --card-bg-light: #ffffff;
+    --card-bg-light: #e0e0e0;
     --card-bg-dark: #2a2a2a;
-    --nav-bg-light: #ffffff;
+    --nav-bg-light: #f0f0f0;
     --nav-bg-dark: #222222;
 }
 
