@@ -11,7 +11,7 @@ function initThreeJS() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.getElementById('focus-3d').appendChild(renderer.domElement);
 
-    const geometry = new THREE.BoxGeometry();
+    const geometry = new THREE.BoxGeometry(2, 2, 2);
     const material = new THREE.MeshBasicMaterial({ color: 0xffd700 });
     cube = new THREE.Mesh(geometry, material);
     scene.add(cube);
@@ -26,6 +26,17 @@ function animate() {
     cube.rotation.x += 0.01;
     cube.rotation.y += 0.01;
     renderer.render(scene, camera);
+    positionButton();
+}
+
+function positionButton() {
+    const button = document.getElementById('start-focus');
+    const vector = new THREE.Vector3(0, 0, 0);
+    vector.project(camera);
+    vector.x = (vector.x + 1) / 2 * window.innerWidth;
+    vector.y = -(vector.y - 1) / 2 * window.innerHeight;
+    button.style.left = `${vector.x}px`;
+    button.style.top = `${vector.y}px`;
 }
 
 function startFocusSession() {
