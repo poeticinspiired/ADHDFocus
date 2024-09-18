@@ -2,6 +2,7 @@ from flask import Blueprint, jsonify
 from app.models import Task, Habit, Mood
 from datetime import datetime, timedelta
 from sqlalchemy.exc import SQLAlchemyError
+import logging
 
 bp = Blueprint('dashboard', __name__)
 
@@ -27,8 +28,9 @@ def user_progress():
         mood_icon = 'meh'
         mood_text = 'Not set'
         if last_mood:
-            mood_icon = 'smile' if last_mood.mood >= 7 else 'meh' if last_mood.mood >= 4 else 'frown'
-            mood_text = f"{last_mood.mood}/10"
+            mood_value = int(last_mood.mood)
+            mood_icon = 'smile' if mood_value >= 7 else 'meh' if mood_value >= 4 else 'frown'
+            mood_text = f"{mood_value}/10"
 
         # Get achievements (this is a placeholder, you'll need to implement an achievement system)
         achievements = ['Task Master', 'Habit Hero', 'Focus Champion']
@@ -42,6 +44,8 @@ def user_progress():
             'achievements': achievements
         }), 200
     except SQLAlchemyError as e:
-        return jsonify({'error': 'Database error', 'message': str(e)}), 500
+        logging.error(f"Database error in user_progress: {str(e)}")
+        return jsonify({'error': 'Database error', 'message': 'An error occurred while fetching user progress'}), 500
     except Exception as e:
-        return jsonify({'error': 'Unexpected error', 'message': str(e)}), 500
+        logging.error(f"Unexpected error in user_progress: {str(e)}")
+        return jsonify({'error': 'Unexpected error', 'message': 'An unexpected error occurred'}), 500

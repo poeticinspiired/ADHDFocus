@@ -23,7 +23,7 @@ def get_insights():
 
     # Mood-related insights
     if moods:
-        avg_mood = sum(mood.mood for mood in moods) / len(moods)
+        avg_mood = sum(int(mood.mood) for mood in moods) / len(moods)
         insights.append(f"The average mood over the last 30 days is {avg_mood:.2f} out of 10.")
 
         mood_energy_correlation = calculate_mood_energy_correlation(moods)
@@ -35,7 +35,7 @@ def get_insights():
     # Task-related insights
     if tasks:
         completed_tasks = [task for task in tasks if task.completed]
-        completion_rate = len(completed_tasks) / len(tasks) * 100
+        completion_rate = len(completed_tasks) / len(tasks) * 100 if tasks else 0
         insights.append(f"The task completion rate over the last 30 days is {completion_rate:.2f}%.")
 
         if completion_rate < 50:
@@ -54,8 +54,8 @@ def get_insights():
 def calculate_mood_energy_correlation(moods):
     if len(moods) < 2:
         return 0
-    mood_values = [mood.mood for mood in moods]
-    energy_values = [mood.energy_level for mood in moods]
+    mood_values = [int(mood.mood) for mood in moods]
+    energy_values = [int(mood.energy_level) for mood in moods]
     mean_mood = sum(mood_values) / len(mood_values)
     mean_energy = sum(energy_values) / len(energy_values)
     numerator = sum((m - mean_mood) * (e - mean_energy) for m, e in zip(mood_values, energy_values))
@@ -69,10 +69,11 @@ def find_most_productive_mood(moods, tasks):
         completed_tasks = [task for task in tasks_on_day if task.completed]
         if tasks_on_day:
             productivity = len(completed_tasks) / len(tasks_on_day)
-            if mood.mood in mood_productivity:
-                mood_productivity[mood.mood].append(productivity)
+            mood_value = int(mood.mood)
+            if mood_value in mood_productivity:
+                mood_productivity[mood_value].append(productivity)
             else:
-                mood_productivity[mood.mood] = [productivity]
+                mood_productivity[mood_value] = [productivity]
     
     if not mood_productivity:
         return None
