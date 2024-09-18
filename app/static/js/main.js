@@ -50,61 +50,81 @@ function updateDashboard(data) {
 }
 
 function updateProgressBar(id, value) {
-    const progressBar = document.getElementById(id);
-    if (progressBar) {
-        progressBar.style.width = `${value}%`;
-    } else {
-        console.error(`Progress bar element not found: ${id}`);
+    try {
+        const progressBar = document.getElementById(id);
+        if (progressBar) {
+            progressBar.style.width = `${value}%`;
+        } else {
+            console.warn(`Progress bar element not found: ${id}`);
+        }
+    } catch (error) {
+        console.error(`Error updating progress bar ${id}:`, error);
     }
 }
 
 function updateText(id, text) {
-    const element = document.getElementById(id);
-    if (element) {
-        element.textContent = text;
-    } else {
-        console.error(`Text element not found: ${id}`);
+    try {
+        const element = document.getElementById(id);
+        if (element) {
+            element.textContent = text;
+        } else {
+            console.warn(`Text element not found: ${id}`);
+        }
+    } catch (error) {
+        console.error(`Error updating text element ${id}:`, error);
     }
 }
 
 function updateMoodIcon(iconName, mood) {
-    const moodIcon = document.getElementById('mood-icon');
-    const moodText = document.getElementById('mood-text');
-    if (moodIcon && moodText) {
-        moodIcon.innerHTML = `<i class="fas fa-${iconName}"></i>`;
-        moodText.textContent = `Last mood: ${mood}`;
-    } else {
-        console.error('Mood elements not found');
+    try {
+        const moodIcon = document.getElementById('mood-icon');
+        const moodText = document.getElementById('mood-text');
+        if (moodIcon && moodText) {
+            moodIcon.innerHTML = `<i class="fas fa-${iconName}"></i>`;
+            moodText.textContent = `Last mood: ${mood}`;
+        } else {
+            console.warn('Mood elements not found');
+        }
+    } catch (error) {
+        console.error('Error updating mood icon:', error);
     }
 }
 
 function updateAchievements(achievements) {
-    const achievementsContainer = document.getElementById('achievements');
-    if (achievementsContainer) {
-        achievementsContainer.innerHTML = '';
-        achievements.forEach(achievement => {
-            const badge = document.createElement('span');
-            badge.className = 'badge';
-            badge.textContent = achievement;
-            achievementsContainer.appendChild(badge);
-        });
-    } else {
-        console.error('Achievements container not found');
+    try {
+        const achievementsContainer = document.getElementById('achievements');
+        if (achievementsContainer) {
+            achievementsContainer.innerHTML = '';
+            achievements.forEach(achievement => {
+                const badge = document.createElement('span');
+                badge.className = 'badge';
+                badge.textContent = achievement;
+                achievementsContainer.appendChild(badge);
+            });
+        } else {
+            console.warn('Achievements container not found');
+        }
+    } catch (error) {
+        console.error('Error updating achievements:', error);
     }
 }
 
 function showNotification(message, type) {
-    const notification = document.createElement('div');
-    notification.className = `notification ${type}`;
-    notification.textContent = message;
-    document.body.appendChild(notification);
-    setTimeout(() => {
-        notification.classList.add('show');
+    try {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
         setTimeout(() => {
-            notification.classList.remove('show');
+            notification.classList.add('show');
             setTimeout(() => {
-                notification.remove();
-            }, 300);
-        }, 3000);
-    }, 100);
+                notification.classList.remove('show');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }, 3000);
+        }, 100);
+    } catch (error) {
+        console.error('Error showing notification:', error);
+    }
 }

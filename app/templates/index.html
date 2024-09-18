@@ -23,10 +23,16 @@
     </div>
     <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.3s;">
         <h2 class="card-title text-2xl mb-4"><i class="fas fa-bullseye text-accent mr-2"></i>Focus</h2>
-        <div class="progress-bar mb-4">
-            <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
+        <div id="focus-container" class="relative w-full h-64">
+            <canvas id="focus-canvas" class="absolute inset-0 w-full h-full"></canvas>
+            <div class="absolute inset-0 flex flex-col items-center justify-center">
+                <div id="focus-timer" class="text-4xl font-bold mb-4">25:00</div>
+                <div class="progress-bar mb-4 w-3/4">
+                    <div id="focus-progress" class="progress-bar-fill" style="width: 0%"></div>
+                </div>
+                <p id="focus-minutes" class="mb-4">0 minutes focused today</p>
+            </div>
         </div>
-        <p id="focus-minutes" class="mb-4">0 minutes focused today</p>
         <a href="{{ url_for('focus.focus') }}" class="btn mt-4 block text-center">Start Focus Session</a>
     </div>
     <div class="card transform hover:scale-105 transition-all slide-in" style="animation-delay: 0.4s;">
